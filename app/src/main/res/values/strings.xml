@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GuessTheVoice</string>
+    <string name="score">Score: <font color='@color/gray'>Login</font></string>
+</resources>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:padding="20dp"
+    tools:context=".DashboardActivity"
+
+    >
+    <!-- main content   -->
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/dashboard_bar"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/dashboard_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="200dp"
+                    android:src="@drawable/checkbox"
+                    android:scaleType="fitXY"
+                    android:background="@color/black"
+                    />
+
+<!--                <ImageView-->
+<!--                    android:layout_width="45dp"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:layout_marginLeft="200dp"-->
+<!--                    android:src="@drawable/checkbox" />-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_marginLeft="25dp"-->
+<!--                    android:paddingTop="5dp"-->
+<!--                    android:src="@drawable/heart" />-->
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/heart"
+                    android:background="@color/black"
+                    android:scaleType="fitXY"
+
+                    />
+
+<!--                <ImageView-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:layout_marginLeft="25dp"-->
+<!--                    android:paddingTop="4dp"-->
+<!--                    android:src="@drawable/settings" />-->
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/settings"
+                    android:background="@color/black"
+                    android:scaleType="fitXY"
+
+                    />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/top_genres"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/Inter_Bold"
+                android:paddingBottom="20dp"
+                android:text="Your Top Genres"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+
+
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <RelativeLayout
+                    android:id="@+id/genre1"
+                    android:layout_width="170dp"
+                    android:layout_height="120dp"
+                    android:background="@color/purple">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/Inter_Bold"
+                        android:padding="20dp"
+                        android:text="Pop"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"></TextView>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="170dp"
+                    android:layout_height="120dp"
+                    android:background="@color/maroon"
+                    android:layout_toRightOf="@id/genre1"
+                    android:layout_marginLeft="25dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/Inter_Bold"
+                        android:padding="20dp"
+                        android:text="Bollywood"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"></TextView>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Browse all"
+                android:textColor="@color/white"
+                android:fontFamily="@font/Inter_Bold"
+                android:textSize="20dp"
+                android:paddingTop="15dp"
+                />
+
+
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

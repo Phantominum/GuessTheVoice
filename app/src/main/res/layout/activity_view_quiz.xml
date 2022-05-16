@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewQuizActivity"
+    android:background="@color/black"
+    android:padding="20dp"
+    >
+
+    <LinearLayout
+        android:background="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp"
+            >
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/back_button_img"
+            android:scaleType="fitXY"
+            android:background="@color/black"
+
+            />
+
+
+        </LinearLayout>
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="7dp"
+            android:background="@color/gray"
+            android:layout_gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+
+                android:src="@drawable/quizimage" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingLeft="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Groovy Quiz"
+                android:fontFamily="@font/Inter_Bold"
+                android:textSize="35dp"
+                android:textColor="@color/white"
+                />
+            <androidx.appcompat.widget.AppCompatImageButton
+
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:src="@drawable/heart"
+                android:scaleType="fitXY"
+                android:paddingTop="7.5dp"
+                android:paddingLeft="75dp"
+                android:background="@color/black"
+                />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Published by hotemogf"
+            android:textColor="@color/gray"
+            android:paddingLeft="15dp"
+            android:fontFamily="@font/Inter_Bold"
+            />
+        <LinearLayout
+            android:paddingTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:text="This quiz is for all groovy souls out there who want to test their knowledge in pop music."
+                android:textColor="@color/gray"
+
+                />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="110dp"
+                android:layout_height="60dp"
+                android:src="@drawable/play_button"
+                android:background="@color/black"
+                android:scaleType="fitXY"
+                android:paddingLeft="50dp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="30dp"
+            android:paddingLeft="20dp"
+            >
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corner_button"
+                android:textColor="@color/white"
+                android:text="View Leaderboards"
+                android:fontFamily="@font/Inter_SemiBold"
+                android:textSize="12dp"
+                android:padding="10dp"
+                android:textAllCaps="false"
+
+                />
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
