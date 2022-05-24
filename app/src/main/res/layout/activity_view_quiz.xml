@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Groovy Quiz"
-                android:fontFamily="@font/Inter_Bold"
+                android:fontFamily="@font/inter_bold"
                 android:textSize="35sp"
                 android:textColor="@color/white"
                 />
@@ -80,9 +80,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Published by hotemogf"
+            android:fontFamily="@font/inter_semibold"
             android:textColor="@color/gray"
             android:paddingStart="15dp"
-            android:fontFamily="@font/Inter_Bold"
+
             />
         <LinearLayout
             android:paddingTop="20dp"
@@ -96,6 +97,7 @@
                 android:paddingStart="15dp"
                 android:paddingTop="5dp"
                 android:text="This quiz is for all groovy souls out there who want to test their knowledge in pop music."
+                android:fontFamily="@font/inter"
                 android:textColor="@color/gray"
 
                 />
@@ -122,7 +124,7 @@
                 android:background="@drawable/rounded_corner_button"
                 android:textColor="@color/white"
                 android:text="View Leaderboards"
-                android:fontFamily="@font/Inter_SemiBold"
+                android:fontFamily="@font/inter_semibold"
                 android:textSize="12sp"
                 android:padding="10dp"
                 android:textAllCaps="false"
