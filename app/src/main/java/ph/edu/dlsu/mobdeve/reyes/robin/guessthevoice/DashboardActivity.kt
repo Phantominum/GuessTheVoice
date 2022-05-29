@@ -37,6 +37,11 @@ class DashboardActivity : AppCompatActivity() {
             startActivity(goToQuizzes)
         }
 
+        binding.buttonSettings.setOnClickListener{
+            var goToSettings = Intent(this, Settings::class.java)
+            startActivity(goToSettings)
+        }
+
 
 //        print("Size is ${genreArrayList.size}")
 //        print(genreArrayList)

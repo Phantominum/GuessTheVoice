@@ -51,14 +51,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
+                android:fontFamily="@font/inter"
+                android:gravity="right"
                 android:padding="18dp"
                 android:text="Sort By: Recent"
                 android:textAlignment="gravity"
-                android:gravity="right"
                 android:textColor="@color/white"
-                android:textSize="15sp"
-                android:fontFamily="@font/inter"
-                />
+                android:textSize="15sp" />
 
 
 
