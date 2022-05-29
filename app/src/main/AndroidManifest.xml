@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice" >
+    package="ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice">
 
     <application
         android:allowBackup="true"
@@ -8,13 +8,22 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GuessTheVoice" >
+        android:theme="@style/Theme.GuessTheVoice">
+        <activity
+            android:name=".Quizzes"
+            android:exported="false" />
         <activity
             android:name=".QuizMaker"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".TakeQuizActivity"
             android:exported="false" />
@@ -29,12 +38,8 @@
             android:exported="false" />
         <activity
             android:name=".Leaderboards"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="true">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
