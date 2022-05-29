@@ -6,4 +6,9 @@
     <string name="leaderboards">Leaderboards</string>
     <string name="quiz_name">Groovy Quiz</string>
     <string name="username">vissariown</string>
+    <string name="quizmaker_name_label">Name your quiz</string>
+    <string name="quizmaker_songname_label">Songname</string>
+    <string name="quizmaker_artist_label">Artist</string>
+    <string name="quizmaker_duration_label">How long will each track be played?</string>
+    <string name="quizmaker_genre_label">What genre?</string>
 </resources>

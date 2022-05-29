@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GuessTheVoice" >
         <activity
-            android:name=".QuizMaker"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Leaderboards"
             android:exported="false" />
         <activity
             android:name=".TakeQuizActivity"
@@ -28,7 +28,7 @@
             android:name=".DashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".Leaderboards"
+            android:name=".QuizMaker"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
