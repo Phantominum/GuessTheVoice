@@ -31,8 +31,8 @@ class Quizzes : AppCompatActivity() {
         quizAdapter = QuizAdapter(applicationContext, quizArrayList, curr_user)
         binding.quizList.adapter = quizAdapter
 
-        print("Size is ${quizArrayList.size}")
-        print(quizArrayList)
+//        print("Size is ${quizArrayList.size}")
+//        print(quizArrayList)
     }
 
     private fun init() {

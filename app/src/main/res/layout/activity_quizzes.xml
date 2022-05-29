@@ -57,7 +57,7 @@
                 android:gravity="right"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                android:fontFamily="@font/inter_bold"
+                android:fontFamily="@font/inter"
                 />
 
 

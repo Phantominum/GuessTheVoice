@@ -18,9 +18,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.logIn.setOnClickListener{
             view: View?-> Toast.makeText(applicationContext, "Logged in", Toast.LENGTH_SHORT).show()
-            var goToQuizzes = Intent(this, Quizzes::class.java)
-            startActivity(goToQuizzes)
+
+            var goToDashboard = Intent(this, DashboardActivity:: class.java)
+            startActivity(goToDashboard)
+
         }
+
 
 
     }

@@ -12,17 +12,23 @@
         <entry key="..\:/Users/Robin/AndroidStudioProjects/GuessTheVoice/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/Users/Robin/AndroidStudioProjects/GuessTheVoice/app/src/main/res/layout/activity_take_quiz.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Robin/AndroidStudioProjects/GuessTheVoice/app/src/main/res/layout/activity_view_quiz.xml" value="0.264" />
+        <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/drawable/back_button.xml" value="0.138" />
+        <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/drawable/background.xml" value="0.138" />
+        <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/drawable/gray_background.xml" value="0.138" />
+        <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/drawable/purple_background.xml" value="0.138" />
+        <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/drawable/red_background.xml" value="0.138" />
         <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/font/inter.xml" value="0.1" />
         <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/activity_dashboard.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/activity_game_end.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/activity_leaderboards.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/activity_main.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/activity_quiz_maker.xml" value="0.18854166666666666" />
-        <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/activity_quizzes.xml" value="0.264" />
+        <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/activity_quizzes.xml" value="0.2" />
         <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/activity_take_quiz.xml" value="0.264" />
         <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/activity_view_quiz.xml" value="0.15052083333333333" />
         <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/dashboard_card_view_design.xml" value="0.14375" />
         <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/fragment_quiz.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/genre_card_view_design.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/quiz_card_view_design.xml" value="0.264" />
         <entry key="..\:/Users/Robin/Documents/GitHub/GuessTheVoice/app/src/main/res/layout/score_item_design.xml" value="0.23854166666666668" />
         <entry key="app/src/main/res/drawable/rounded_corner_button.xml" value="0.138" />

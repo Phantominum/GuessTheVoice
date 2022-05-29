@@ -7,9 +7,9 @@
     tools:context=".GameEndActivity"
     android:background="@color/green"
     android:paddingTop="10dp"
-    android:paddingLeft="50dp"
-    android:paddingRight="50dp"
-    android:paddingBottom="50dp"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp"
+    android:paddingBottom="25dp"
     >
 
     <LinearLayout
@@ -24,6 +24,7 @@
         >
 
         <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_quiz_end_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/back_button_img"
@@ -52,7 +53,7 @@
             />
 
         <TextView
-            android:id="@+id/landing"
+            android:id="@+id/text_points"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -94,7 +95,7 @@
             app:layout_constraintTop_toBottomOf="@id/landing" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/view_leaderboards"
+            android:id="@+id/button_quiz_end_view_leaderboards"
             android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
