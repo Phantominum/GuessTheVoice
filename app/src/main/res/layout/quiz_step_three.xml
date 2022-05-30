@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingHorizontal="40dp"
+    android:background="@color/background">
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/lbl_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select an image"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/white"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="24sp"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/lbl_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/thumbnail1"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:src="@drawable/thumbnail1"
+            android:background="@color/background"
+            android:adjustViewBounds="true"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/thumbnail2"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/thumbnail2"
+            android:background="@color/background"
+            android:adjustViewBounds="true"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/layout_1">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/thumbnail3"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:src="@drawable/thumbnail3"
+            android:background="@color/background"
+            />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/thumbnail4"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/thumbnail4"
+            android:background="@color/background"
+            />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
