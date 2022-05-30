@@ -39,6 +39,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_take_quiz.xml" value="0.12760416666666666" />
         <entry key="app/src/main/res/layout/activity_view_quiz.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/quiz_step_four.xml" value="0.14673913043478262" />
       </map>
     </option>
   </component>

@@ -16,4 +16,6 @@
     <color name="dark_header_blue">#1E3264</color>
     <color name ="light_blue">#779CFD</color>
     <color name="vibrant_pink">#E8125C</color>
+    <color name="pastel_blue">#779CFD</color>
+    <color name="background">#121212</color>
 </resources>
