@@ -1,5 +1,6 @@
 package ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -17,7 +18,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.logIn.setOnClickListener{
             view: View?-> Toast.makeText(applicationContext, "Logged in", Toast.LENGTH_SHORT).show()
+
+            var goToDashboard = Intent(this, DashboardActivity:: class.java)
+            startActivity(goToDashboard)
+
         }
+
 
 
     }
