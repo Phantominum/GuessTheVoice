@@ -16,14 +16,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.logIn.setOnClickListener{
+        binding.buttonLandingLogIn.setOnClickListener{
             view: View?-> Toast.makeText(applicationContext, "Logged in", Toast.LENGTH_SHORT).show()
 
             var goToDashboard = Intent(this, DashboardActivity:: class.java)
             startActivity(goToDashboard)
 
         }
-
 
 
     }

@@ -9,6 +9,7 @@ import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityViewQui
 
 class ViewQuizActivity : AppCompatActivity() {
     private lateinit var binding:ActivityViewQuizBinding
+    private var liked_state = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityViewQuizBinding.inflate(layoutInflater)
@@ -28,6 +29,17 @@ class ViewQuizActivity : AppCompatActivity() {
         binding.buttonViewLeaderboards.setOnClickListener{
             var goToLeaderboards = Intent(this, Leaderboards::class.java)
             startActivity(goToLeaderboards)
+        }
+
+        binding.buttonLikeQuiz.setOnClickListener{
+            if(!liked_state){
+                binding.buttonLikeQuiz.setImageResource(R.drawable.green_heart)
+                liked_state = true
+            }
+            else{
+                binding.buttonLikeQuiz.setImageResource(R.drawable.heart)
+                liked_state = false
+            }
         }
 
     }

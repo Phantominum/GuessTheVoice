@@ -92,7 +92,7 @@
             android:textAlignment="center"
             android:textSize="20sp"
             android:layout_gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/landing" />
+            />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_quiz_end_view_leaderboards"
@@ -107,7 +107,7 @@
             android:textAlignment="center"
             android:layout_gravity="center"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@id/sign_up" />
+             />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

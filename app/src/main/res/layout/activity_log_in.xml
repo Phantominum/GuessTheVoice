@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".MainActivity"
+    tools:context=".LogInActivity"
     android:paddingTop="100dp"
     android:paddingLeft="50dp"
     android:paddingRight="50dp"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-       >
+        >
 
 
         <ImageView
@@ -46,25 +46,30 @@
             android:textSize="45sp"
             app:layout_constraintTop_toBottomOf="@id/musicLogo" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_landing_sign_up"
-            android:layout_marginTop="60dp"
+        <EditText
+            android:id="@+id/edit_text_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_button"
-            android:text="Sign up free"
-            android:fontFamily="@font/inter_bold"
-            android:textStyle="bold"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:textSize="20sp"
-
-            app:layout_constraintTop_toBottomOf="@id/landing" />
+            android:layout_height="40sp"
+            android:hint="Email"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:layout_marginTop="30dp"
+            >
+        </EditText>
+        <EditText
+            android:id="@+id/edit_text_password"
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:hint="Password"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:layout_marginTop="15dp"
+            >
+        </EditText>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_landing_log_in"
-            android:layout_marginTop="15dp"
+            android:id="@+id/button_log_in"
+            android:layout_marginTop="35dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/black"
@@ -75,7 +80,7 @@
             android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@id/button_landing_sign_up" />
+            app:layout_constraintTop_toBottomOf="@id/edit_text_password" />
     </LinearLayout>
 
 
