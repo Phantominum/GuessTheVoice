@@ -34,6 +34,7 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/button_quiz_maker"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_marginStart="200dp"

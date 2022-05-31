@@ -42,6 +42,12 @@ class DashboardActivity : AppCompatActivity() {
             startActivity(goToSettings)
         }
 
+        binding.buttonQuizMaker.setOnClickListener{
+            var goToQuizMaker = Intent(this, QuizMaker::class.java)
+            startActivity(goToQuizMaker)
+        }
+
+
 
 //        print("Size is ${genreArrayList.size}")
 //        print(genreArrayList)

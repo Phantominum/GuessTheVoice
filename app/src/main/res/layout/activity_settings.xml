@@ -95,7 +95,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColor="@color/light_blue"
+                    android:textColor="@color/pastel_blue"
                     android:textAlignment="gravity"
                     android:layout_gravity="right"
                     android:fontFamily="@font/inter_semibold"
@@ -145,7 +145,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColor="@color/light_blue"
+                    android:textColor="@color/pastel_blue"
                     android:textAlignment="gravity"
                     android:layout_gravity="right"
                     android:fontFamily="@font/inter_semibold"
