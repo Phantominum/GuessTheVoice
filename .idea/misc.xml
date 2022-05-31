@@ -36,10 +36,14 @@
         <entry key="app/src/main/res/drawable/rounded_corner_button.xml" value="0.138" />
         <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.20449473063151047" />
         <entry key="app/src/main/res/layout/activity_game_end.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_leaderboards.xml" value="0.14673913043478262" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_quiz_maker.xml" value="0.3330718994140625" />
         <entry key="app/src/main/res/layout/activity_take_quiz.xml" value="0.12760416666666666" />
         <entry key="app/src/main/res/layout/activity_view_quiz.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/quiz_step_four.xml" value="0.14673913043478262" />
+        <entry key="app/src/main/res/layout/quiz_step_four.xml" value="0.2792452830188679" />
+        <entry key="app/src/main/res/layout/quiz_step_one.xml" value="0.3556243233058764" />
+        <entry key="app/src/main/res/layout/quiz_step_two.xml" value="0.21014492753623187" />
       </map>
     </option>
   </component>

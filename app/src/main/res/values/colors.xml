@@ -14,8 +14,7 @@
     <color name="dark_gray">#767575</color>
     <color name="light_gray">#A7A7A7</color>
     <color name="dark_header_blue">#1E3264</color>
-    <color name ="light_blue">#779CFD</color>
-    <color name="vibrant_pink">#E8125C</color>
     <color name="pastel_blue">#779CFD</color>
+    <color name="vibrant_pink">#E8125C</color>
     <color name="background">#121212</color>
 </resources>

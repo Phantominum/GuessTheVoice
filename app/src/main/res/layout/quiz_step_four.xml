@@ -1,18 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
     android:paddingHorizontal="40dp"
-    >
+    android:orientation="vertical">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
-        android:textColor="white"
-        android:fontFamily="@font/inter"
+        android:layout_marginVertical="5dp"
+        >
+        <TextView
+            android:id="@+id/lbl_name"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter_bold"
+            android:text="Name:"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/quiz_name"
+            />
+        <TextView
+            android:id="@+id/quiz_name"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter"
+            android:text="Are you jazzy enough?"
+            app:layout_constraintLeft_toRightOf="@id/lbl_name"
+            app:layout_constraintRight_toRightOf="parent"
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        >
+        <TextView
+            android:id="@+id/lbl_pub_duration"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter_bold"
+            android:text="Song interval:"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/pub_duration"
+            />
+        <TextView
+            android:id="@+id/pub_duration"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter"
+            android:text="10 sec."
+            android:layout_marginRight="95dp"
+            app:layout_constraintLeft_toRightOf="@id/lbl_pub_duration"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        >
+        <TextView
+            android:id="@+id/lbl_duration"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter_bold"
+            android:text="Genre:"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/duration"
+            />
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="285dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter"
+            android:text="Jazz"
+            app:layout_constraintLeft_toRightOf="@id/lbl_duration"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/lbl_tracks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_semibold"
+        android:text="Track List"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_marginTop="20sp"/>
+
+    <View
+        android:id="@+id/upper_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white"
+        android:layout_marginTop="20dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/score_list"
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
         />
 
 </LinearLayout>
