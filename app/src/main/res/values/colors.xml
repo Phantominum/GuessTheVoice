@@ -17,4 +17,24 @@
     <color name="pastel_blue">#779CFD</color>
     <color name="vibrant_pink">#E8125C</color>
     <color name="background">#121212</color>
+    <color name="yellow">#FFDF00</color>
+    <color name="orange">#FFA500</color>
+    <color name="red">#FF0000</color>
+    <color name="brown">#964B00</color>
+
+    <integer-array name="genre_colors">
+        <item>@color/pastel_blue</item>
+        <item>@color/purple</item>
+        <item>@color/green</item>
+        <item>@color/vibrant_pink</item>
+        <item>@color/teal_200</item>
+        <item>@color/teal_700</item>
+        <item>@color/purple_500</item>
+        <item>@color/gray</item>
+        <item>@color/dark_header_blue</item>
+        <item>@color/yellow</item>
+        <item>@color/orange</item>
+        <item>@color/red</item>
+        <item>@color/brown</item>
+    </integer-array>
 </resources>

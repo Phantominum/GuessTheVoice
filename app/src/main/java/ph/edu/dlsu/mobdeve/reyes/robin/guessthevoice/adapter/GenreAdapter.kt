@@ -8,6 +8,7 @@ import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.R
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.GenreCardViewDesignBinding
 
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Genre
+import kotlin.random.Random
 
 
 class GenreAdapter (
@@ -19,8 +20,12 @@ class GenreAdapter (
     inner class GenreViewHolder(private val itemBinding: GenreCardViewDesignBinding)
         : RecyclerView.ViewHolder(itemBinding.root) {
         fun  bindGenre(genre: Genre) {
+            var genre_colors = IntArray(13)
 
+            genre_colors = context.getResources().getIntArray(R.array.genre_colors)
+            var randomColorGen = genre_colors[Random.nextInt(genre_colors.size)]
             itemBinding.textGenreCard.text = genre.genre_name
+            itemView.setBackgroundColor(randomColorGen)
 //            itemBinding.genreCard.setBackgroundColor(0x4CAF50)
         }
     }
