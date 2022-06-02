@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -19,6 +20,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
+    private lateinit var textError: TextView
 //    private val DB_URL:String = "https://guessthevoice-default-rtdb.asia-southeast1.firebasedatabase.app/"
     private lateinit var firebaseAuth: FirebaseAuth
 
@@ -28,10 +30,16 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         etEmail = binding.loginEmail
         etPassword = binding.loginPassword
+        textError = binding.loginError
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.btnLogin.setOnClickListener {
           authenticate()
+        }
+
+        binding.loginRegister.setOnClickListener {
+            val goToRegister = Intent(this,RegisterActivity::class.java)
+            startActivity(goToRegister)
         }
     }
     private fun authenticate() {
@@ -44,12 +52,16 @@ class LoginActivity : AppCompatActivity() {
                     if (it.isSuccessful) {
                         etEmail.text.clear()
                         etPassword.text.clear()
+                        textError.text = ""
+                        textError.setTextColor(getResources().getColor(R.color.white))
                         val goToMain = Intent(this,MainActivity::class.java)
                         startActivity(goToMain)
                     }
                 }.addOnFailureListener { err ->
                     Toast.makeText(this, "Failed to create account.", Toast.LENGTH_LONG).show()
                     println("LOG: Failed to log in ${err}")
+                    textError.text = err.toString()
+                    textError.setTextColor(getResources().getColor(R.color.vibrant_pink))
                 }
         } else {
             Toast.makeText(this,"Fill all fields", Toast.LENGTH_LONG).show()

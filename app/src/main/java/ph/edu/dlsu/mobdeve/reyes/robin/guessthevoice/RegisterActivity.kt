@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -19,6 +20,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var btnRegister: Button
+    private lateinit var textError: TextView
 
     private lateinit var firebaseAuth: FirebaseAuth
 //    private lateinit var database: FirebaseDatabase
@@ -33,6 +35,7 @@ class RegisterActivity : AppCompatActivity() {
         etEmail = binding.registerEmail
         etPassword = binding.registerPassword
         btnRegister = binding.btnRegister
+        textError = binding.registerError
 
         firebaseAuth = FirebaseAuth.getInstance()
 //        database = Firebase.database(DB_URL)
@@ -43,7 +46,7 @@ class RegisterActivity : AppCompatActivity() {
             saveAccountData()
         }
 
-        binding.btnLogin.setOnClickListener {
+        binding.registerLogin.setOnClickListener {
             val goToLogin = Intent(this,LoginActivity::class.java)
             startActivity(goToLogin)
         }
@@ -58,10 +61,14 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Account created.", Toast.LENGTH_LONG).show()
                 etEmail.text.clear()
                 etPassword.text.clear()
+                    textError.text = ""
+                    textError.setTextColor(getResources().getColor(R.color.white))
                 println("LOG: Account created")
             }.addOnFailureListener { err ->
                     Toast.makeText(this, "Failed to create account.", Toast.LENGTH_LONG).show()
                 println("LOG: Failed account creation: ${err}")
+                    textError.text = err.toString()
+                    textError.setTextColor(getResources().getColor(R.color.vibrant_pink))
             }
         } else {
             Toast.makeText(this,"Fill all fields", Toast.LENGTH_LONG).show()
