@@ -46,10 +46,6 @@ class RegisterActivity : AppCompatActivity() {
             saveAccountData()
         }
 
-        binding.registerLogin.setOnClickListener {
-            val goToLogin = Intent(this,LoginActivity::class.java)
-            startActivity(goToLogin)
-        }
     }
     private fun saveAccountData() {
         val email = etEmail.text.toString()

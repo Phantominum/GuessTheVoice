@@ -37,10 +37,7 @@ class LoginActivity : AppCompatActivity() {
             authenticate()
         }
 
-        binding.loginRegister.setOnClickListener {
-            val goToRegister = Intent(this,RegisterActivity::class.java)
-            startActivity(goToRegister)
-        }
+
     }
     private fun authenticate() {
         val email = etEmail.text.toString()
@@ -54,8 +51,9 @@ class LoginActivity : AppCompatActivity() {
                         etPassword.text.clear()
                         textError.text = ""
                         textError.setTextColor(getResources().getColor(R.color.white))
-                        val goToMain = Intent(this,MainActivity::class.java)
-                        startActivity(goToMain)
+//                        view: View?-> Toast.makeText(applicationContext, "Logged in", Toast.LENGTH_SHORT).show()
+                        val goToDashboard = Intent(this,DashboardActivity::class.java)
+                        startActivity(goToDashboard)
                     }
                 }.addOnFailureListener { err ->
                     Toast.makeText(this, "Failed to create account.", Toast.LENGTH_LONG).show()

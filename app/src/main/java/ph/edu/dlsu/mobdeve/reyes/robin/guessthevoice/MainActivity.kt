@@ -17,11 +17,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.buttonLandingLogIn.setOnClickListener{
-            view: View?-> Toast.makeText(applicationContext, "Logged in", Toast.LENGTH_SHORT).show()
 
-            var goToDashboard = Intent(this, DashboardActivity:: class.java)
-            startActivity(goToDashboard)
+            var goToLogIn = Intent(this, LoginActivity:: class.java)
+            startActivity(goToLogIn)
 
+        }
+
+        binding.buttonLandingSignUp.setOnClickListener {
+            val goToRegister = Intent(this,RegisterActivity::class.java)
+            startActivity(goToRegister)
         }
 
 
