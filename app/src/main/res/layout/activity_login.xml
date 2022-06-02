@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".RegisterActivity"
+    tools:context=".LoginActivity"
     android:paddingTop="100dp"
     android:paddingLeft="50dp"
     android:paddingRight="50dp"
@@ -47,7 +47,7 @@
             app:layout_constraintTop_toBottomOf="@id/musicLogo" />
 
         <EditText
-            android:id="@+id/register_email"
+            android:id="@+id/login_email"
             android:layout_width="match_parent"
             android:layout_height="40sp"
             android:hint="Email"
@@ -56,9 +56,8 @@
             android:layout_marginTop="30dp"
             >
         </EditText>
-
         <EditText
-            android:id="@+id/register_password"
+            android:id="@+id/login_password"
             android:layout_width="match_parent"
             android:layout_height="40sp"
             android:hint="Password"
@@ -69,7 +68,7 @@
         </EditText>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_register"
+            android:id="@+id/btn_login"
             android:layout_marginTop="35dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,14 +76,14 @@
             android:textAllCaps="false"
             android:fontFamily="@font/inter_bold"
             android:textStyle="bold"
-            android:text="Register"
+            android:text="Log in"
             android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@id/register_password" />
+            app:layout_constraintTop_toBottomOf="@id/login_password" />
 
         <TextView
-            android:id="@+id/register_login"
+            android:id="@+id/login_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Create an account."
@@ -96,7 +95,7 @@
             />
 
         <TextView
-            android:id="@+id/register_error"
+            android:id="@+id/login_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter"
