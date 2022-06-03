@@ -16,13 +16,27 @@ import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Quiz
 
 
 class QuizAdapter (
-    private var context: Context,
-    private var quizArray: ArrayList<Quiz>,
-    private var curr_user:String
+
     ) : RecyclerView.Adapter<QuizAdapter.QuizViewHolder>() {
+
+    private lateinit var context: Context
+    private lateinit var quizArray :ArrayList<Quiz>
+    private var curr_user: String = ""
 
     override fun onBindViewHolder(holder:QuizAdapter. QuizViewHolder, position: Int) {
         holder.bindQuiz(quizArray[position])
+    }
+
+    constructor(context: Context,  quizArray: ArrayList<Quiz>, curr_user:String) : this() {
+        this.context = context
+        this.quizArray= quizArray
+        this.curr_user = curr_user
+    }
+
+    constructor(context: Context,  quizArray: ArrayList<Quiz>) : this() {
+        this.context = context
+        this.quizArray= quizArray
+
     }
 
     inner class QuizViewHolder(private val itemBinding: QuizCardViewDesignBinding)
@@ -43,6 +57,7 @@ class QuizAdapter (
             itemBinding.textQuizCreator.text = quiz.quiz_creator
             itemBinding.textLikes.text = quiz.likes.toString()
             itemBinding.quizImage.setImageResource(quiz.quiz_image)
+            itemBinding.buttonQuizListLike
         }
 
         override fun onClick(v: View?){
