@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(goToDashboard)
                     }
                 }.addOnFailureListener { err ->
-                    Toast.makeText(this, "Failed to create account.", Toast.LENGTH_LONG).show()
+//                    Toast.makeText(this, "Failed to create account.", Toast.LENGTH_LONG).show()
                     println("LOG: Failed to log in ${err}")
                     textError.text = err.message
                     textError.setTextColor(getResources().getColor(R.color.vibrant_pink))

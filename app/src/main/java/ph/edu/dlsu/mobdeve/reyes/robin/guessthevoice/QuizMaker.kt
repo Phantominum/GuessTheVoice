@@ -1,5 +1,6 @@
 package ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -40,7 +41,12 @@ class QuizMaker : AppCompatActivity() {
                 binding.fragment2Btn.setTextColor(getResources().getColor(R.color.white))
                 binding.fragment2Btn.setBackgroundResource(R.drawable.round_button_bordered)
                 binding.breadcrumbs.setText("Step 4 of 4")
-            } else {
+                binding.fragment2Btn.setOnClickListener{
+                    var goToDashboard = Intent(this, DashboardActivity::class.java)
+                    startActivity(goToDashboard)
+                }
+            }
+            else {
                 replaceFragment(fragmentList[currentFragIndex])
                 currentFragIndex += 1
                 binding.breadcrumbs.setText("Step ${currentFragIndex} of 4")
