@@ -54,17 +54,19 @@ class RegisterActivity : AppCompatActivity() {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             firebaseAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener{
-                Toast.makeText(this, "Account created.", Toast.LENGTH_LONG).show()
-                etEmail.text.clear()
-                etPassword.text.clear()
-                    textError.text = ""
-                    textError.setTextColor(getResources().getColor(R.color.white))
-                println("LOG: Account created")
+                    if (it.isSuccessful) {
+                        Toast.makeText(this, "Account created.", Toast.LENGTH_LONG).show()
+                        etEmail.text.clear()
+                        etPassword.text.clear()
+                        textError.text = ""
+                        textError.run { setTextColor(resources.getColor(R.color.white)) }
+                        println("LOG: Account created")
+                    }
             }.addOnFailureListener { err ->
                     Toast.makeText(this, "Failed to create account.", Toast.LENGTH_LONG).show()
-                println("LOG: Failed account creation: ${err}")
-                    textError.text = err.toString()
-                    textError.setTextColor(getResources().getColor(R.color.vibrant_pink))
+                    println("LOG: Failed account creation: $err")
+                    textError.text = err.message
+                    textError.setTextColor(resources.getColor(R.color.vibrant_pink))
             }
         } else {
             Toast.makeText(this,"Fill all fields", Toast.LENGTH_LONG).show()

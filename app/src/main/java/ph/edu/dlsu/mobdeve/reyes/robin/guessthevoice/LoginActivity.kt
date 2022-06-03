@@ -34,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.btnLogin.setOnClickListener {
+            textError.text = ""
             authenticate()
         }
 
@@ -58,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                 }.addOnFailureListener { err ->
                     Toast.makeText(this, "Failed to create account.", Toast.LENGTH_LONG).show()
                     println("LOG: Failed to log in ${err}")
-                    textError.text = err.toString()
+                    textError.text = err.message
                     textError.setTextColor(getResources().getColor(R.color.vibrant_pink))
                 }
         } else {

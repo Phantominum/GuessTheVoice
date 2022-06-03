@@ -21,7 +21,7 @@ class QuizMaker : AppCompatActivity() {
         binding = ActivityQuizMakerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        fragmentList.add(QuizStepOne())
+        fragmentList.add(QuizStepOne.newInstance())
         fragmentList.add(QuizStepTwo())
         fragmentList.add(QuizStepThree())
         fragmentList.add(QuizStepFour())
@@ -39,11 +39,12 @@ class QuizMaker : AppCompatActivity() {
                 binding.fragment2Btn.setGravity(Gravity.CENTER)
                 binding.fragment2Btn.setTextColor(getResources().getColor(R.color.white))
                 binding.fragment2Btn.setBackgroundResource(R.drawable.round_button_bordered)
+                binding.breadcrumbs.setText("Step 4 of 4")
             } else {
                 replaceFragment(fragmentList[currentFragIndex])
                 currentFragIndex += 1
+                binding.breadcrumbs.setText("Step ${currentFragIndex} of 4")
             }
-            binding.breadcrumbs.setText("Step ${currentFragIndex} of 4")
         }
     }
 
