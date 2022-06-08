@@ -32,7 +32,7 @@
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="true"></activity>
+            android:exported="true"/>
         <activity
             android:name=".Leaderboards"
             android:exported="false" />
