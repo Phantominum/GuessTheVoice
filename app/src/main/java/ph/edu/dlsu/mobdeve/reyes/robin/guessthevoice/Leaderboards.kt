@@ -25,9 +25,6 @@ class Leaderboards : AppCompatActivity() {
         binding.scoreList.layoutManager = LinearLayoutManager(applicationContext)
         scoreAdapter = ScoreAdapter(applicationContext, scoreArrayList, curr_user)
         binding.scoreList.adapter = scoreAdapter
-
-        print("Size is ${scoreArrayList.size}")
-        print(scoreArrayList)
     }
 
     private fun init() {

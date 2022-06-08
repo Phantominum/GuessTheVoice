@@ -5,11 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.adapter.TrackAdapter
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.callback.SwipeCallback
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.TrackDAOArrayImpl
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.QuizStepTwoBinding
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Track
 
 class QuizStepTwo: Fragment() {
     private var _binding: QuizStepTwoBinding? = null
     private val binding get() = _binding!!
+    private val dao = TrackDAOArrayImpl()
+    private lateinit var itemTouchHelper: ItemTouchHelper
+    private var tracks: ArrayList<Track> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +31,22 @@ class QuizStepTwo: Fragment() {
         // Inflate the layout for this fragment
         _binding = QuizStepTwoBinding.inflate(layoutInflater, container, false)
         val view = binding.root
-        //        binding.lblDuration.setTextColor(getResources().getColor(R.color.vibrant_pink))
+        val ctx = getActivity()?.getApplicationContext()
+
+        binding.editTrackList.layoutManager = LinearLayoutManager(ctx)
+        var trackAdapter = TrackAdapter(ctx, tracks, dao)
+        binding.editTrackList.adapter = trackAdapter
+
+        var swipeCallback = SwipeCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+        swipeCallback.trackAdapter = trackAdapter
+        itemTouchHelper = ItemTouchHelper(swipeCallback)
+        itemTouchHelper.attachToRecyclerView(binding.editTrackList)
+
+        binding.btnAdd.setOnClickListener {
+            var sample_track = Track("As It Was", "Harry Styles")
+            trackAdapter.addTrack(sample_track)
+        }
+
         return view
     }
 
