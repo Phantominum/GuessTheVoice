@@ -4,16 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
-import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityQuizMakerBinding
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.fragments.QuizStepFour
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.fragments.QuizStepOne
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.fragments.QuizStepThree
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.fragments.QuizStepTwo
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Quiz
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Track
 
 class QuizMaker : AppCompatActivity(), Communicator {
     private lateinit var binding: ActivityQuizMakerBinding
@@ -79,6 +77,15 @@ class QuizMaker : AppCompatActivity(), Communicator {
                 println("STEP 1: ${quiz.duration} ")
                 println("STEP 1: ${quiz.genre} ")
             }
+            2 -> {
+                quiz.tracks = data.getParcelableArrayList<Track>("tracks")
+                if (quiz.tracks != null)
+                    println("STEP 2: ${quiz.tracks?.get(0)?.name}")
+            }
+            3 -> {
+
+            }
+
         }
 //        val bundle = Bundle()
 //        bundle.putString("title",editTextData)

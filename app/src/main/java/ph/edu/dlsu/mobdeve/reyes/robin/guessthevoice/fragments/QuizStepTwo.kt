@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.Communicator
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.adapter.TrackAdapter
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.callback.SwipeCallback
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.TrackDAOArrayImpl
@@ -16,6 +17,7 @@ import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Track
 class QuizStepTwo: Fragment() {
     private var _binding: QuizStepTwoBinding? = null
     private val binding get() = _binding!!
+    private lateinit var communicator: Communicator
     private val dao = TrackDAOArrayImpl()
     private lateinit var itemTouchHelper: ItemTouchHelper
     private var tracks: ArrayList<Track> = ArrayList()
@@ -33,6 +35,10 @@ class QuizStepTwo: Fragment() {
         val view = binding.root
         val ctx = getActivity()?.getApplicationContext()
 
+        // Initialize communicator
+        communicator = activity as Communicator
+
+        // Recycler View
         binding.editTrackList.layoutManager = LinearLayoutManager(ctx)
         var trackAdapter = TrackAdapter(ctx, tracks, dao)
         binding.editTrackList.adapter = trackAdapter
@@ -52,6 +58,9 @@ class QuizStepTwo: Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        val bundle = Bundle()
+        bundle.putParcelableArrayList("tracks",tracks)
+        communicator.passData(bundle,2)
         _binding = null
     }
 

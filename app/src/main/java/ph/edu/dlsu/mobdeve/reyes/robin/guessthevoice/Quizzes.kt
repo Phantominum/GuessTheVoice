@@ -10,7 +10,6 @@ import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.QuizDAOArrayImpl
 
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityQuizzesBinding
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Quiz
-import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Score
 
 class Quizzes : AppCompatActivity() {
     private lateinit var binding: ActivityQuizzesBinding
