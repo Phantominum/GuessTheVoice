@@ -13,7 +13,7 @@
             android:name=".LikedQuizzesActivity"
             android:exported="false" />
         <activity
-            android:name=".QuizMaker"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,7 +49,7 @@
             android:name=".DashboardActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".QuizMaker"
             android:exported="true" />
     </application>
 
