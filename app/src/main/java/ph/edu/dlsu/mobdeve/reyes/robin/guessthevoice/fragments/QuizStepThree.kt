@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.Communicator
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.R
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.QuizStepThreeBinding
 
 class QuizStepThree: Fragment() {
     private var _binding: QuizStepThreeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var communicator: Communicator
+    private var thumbnail: Int = R.drawable.thumbnail1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,12 +26,30 @@ class QuizStepThree: Fragment() {
         // Inflate the layout for this fragment
         _binding = QuizStepThreeBinding.inflate(layoutInflater, container, false)
         val view = binding.root
-        //        binding.lblDuration.setTextColor(getResources().getColor(R.color.vibrant_pink))
+        // Initialize communicator
+        communicator = activity as Communicator
+        // Set click listeners
+        binding.thumbnail1.setOnClickListener {
+            thumbnail = R.drawable.thumbnail1
+        }
+        binding.thumbnail2.setOnClickListener {
+            thumbnail = R.drawable.thumbnail2
+        }
+        binding.thumbnail3.setOnClickListener {
+            thumbnail = R.drawable.thumbnail3
+        }
+        binding.thumbnail4.setOnClickListener {
+            thumbnail = R.drawable.thumbnail1
+        }
+
         return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        val bundle = Bundle()
+        bundle.putInt("quiz_image",thumbnail)
+        communicator.passData(bundle, 3)
         _binding = null
     }
 
