@@ -10,24 +10,37 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.adapter.GenreAdapter
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.GenreDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.GenreDAOArrayImpl
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.UserDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityDashboardBinding
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Genre
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.User
 
 class DashboardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var genreAdapter: GenreAdapter
     private lateinit var genreArrayList: ArrayList<Genre>
+    private var user: User? = null
+    private lateinit var dao: UserDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        // Initialize dao
+        dao = UserDAO(applicationContext)
+        // Retrieve username from bundle
+        var bundle = intent.extras
+        if (bundle != null) {
+            // Get the user metadata
+            user = dao.getAccount(bundle.getString("username").toString())
+            if (user != null)
+                println("LOG: Dashboard retrieved user data")
+        }
+        //TODO: Remove init()
         init()
         binding.genreList.layoutManager = GridLayoutManager(applicationContext,2)
-//        binding.genreList.layoutManager = LinearLayoutManager(applicationContext)
         genreAdapter = GenreAdapter(applicationContext, genreArrayList)
         binding.genreList.adapter = genreAdapter
 
@@ -51,12 +64,6 @@ class DashboardActivity : AppCompatActivity() {
             var goToLikedQuizzes = Intent(this, LikedQuizzesActivity::class.java)
             startActivity(goToLikedQuizzes)
         }
-
-
-
-//        print("Size is ${genreArrayList.size}")
-//        print(genreArrayList)
-
     }
 
     private fun init(){

@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class Track (
+data class Track (
     var name: String? = null,
     var artist: String? = null,
     var music_url: String? = null
