@@ -46,9 +46,19 @@
                 android:adjustViewBounds="true"
 
                 android:src="@drawable/take_quiz_image" />
+
+            <TextView
+                android:id="@+id/timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_bold"
+                android:textSize="40sp" />
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/text_track_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Track 1"
@@ -59,11 +69,14 @@
             android:paddingBottom="15dp"
             />
         <EditText
+            android:id="@+id/text_answer_field"
             android:layout_width="match_parent"
             android:layout_height="30sp"
             android:background="@color/white"
             android:textColor="@color/black"
-            android:textSize="30sp"
+            android:textSize="20sp"
+            android:maxLines="1"
+            android:inputType="text"
 
             />
 
@@ -73,11 +86,11 @@
             android:layout_gravity="center"
             />
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/skip_button"
+                android:id="@+id/start_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_corner_button"
-                android:text ="Skip"
+                android:text ="Start"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:fontFamily="@font/inter_semibold"

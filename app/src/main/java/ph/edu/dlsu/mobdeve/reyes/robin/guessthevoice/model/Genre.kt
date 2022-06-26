@@ -1,6 +1,9 @@
 package ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model
 
-class Genre {
+data class Genre (
+    var genre_color : String = "",
     var genre_name : String =""
-    var genre_color : String = ""
+
+) {
+    constructor(): this("","")
 }

@@ -1,12 +1,16 @@
 package ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.adapter.GenreAdapter
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.GenreDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.GenreDAOArrayImpl
@@ -20,6 +24,7 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var genreAdapter: GenreAdapter
     private lateinit var genreArrayList: ArrayList<Genre>
+    val db = Firebase.firestore
     private var user: User? = null
     private lateinit var dao: UserDAO
 
@@ -66,50 +71,75 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
+    private fun getGenres(){
+        var genre : Genre? = null
+        db.collection("Genres")
+            .get()
+            .addOnSuccessListener { result->
+                for (document in result){
+                    Log.d(TAG, "${document.id} => ${document.data}")
+                    genre = document.toObject(Genre::class.java)
+                }
+            }
+    }
+
     private fun init(){
         val dao : GenreDAO = GenreDAOArrayImpl()
         var genre =  Genre()
 
-        genre.genre_name = "Rock"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
+//        var genre : Genre? = null
+        db.collection("Genres")
+            .get()
+            .addOnSuccessListener { result->
+                for (document in result){
+                    Log.d(TAG, "${document.id} => ${document.data}")
+                    genre = document.toObject(Genre::class.java)
+                    println("LOG genre retrieved: ${genre.toString()}")
+                    dao.addGenre(genre)
+                }
+            }
 
-        genre =  Genre()
-        genre.genre_name = "Blues"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-        genre =  Genre()
-        genre.genre_name = "Rap"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-
-        genre =  Genre()
-        genre.genre_name = "K-Pop"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-        genre =  Genre()
-        genre.genre_name = "J-Pop"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-        genre =  Genre()
-        genre.genre_name = "Classical"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-        genre =  Genre()
-        genre.genre_name = "Video Games"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-        genre =  Genre()
-        genre.genre_name = "Musical"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
+//        genre.genre_name = "Rock"
+//        genre.genre_color = "green"
+//        dao.addGenre(genre)
+//
+//        genre =  Genre()
+//        genre.genre_name = "Blues"
+//        genre.genre_color = "green"
+//        dao.addGenre(genre)
+//
+//        genre =  Genre()
+//        genre.genre_name = "Rap"
+//        genre.genre_color = "green"
+//        dao.addGenre(genre)
+//
+//
+//        genre =  Genre()
+//        genre.genre_name = "K-Pop"
+//        genre.genre_color = "green"
+//        dao.addGenre(genre)
+//
+//        genre =  Genre()
+//        genre.genre_name = "J-Pop"
+//        genre.genre_color = "green"
+//        dao.addGenre(genre)
+//
+//        genre =  Genre()
+//        genre.genre_name = "Classical"
+//        genre.genre_color = "green"
+//        dao.addGenre(genre)
+//
+//        genre =  Genre()
+//        genre.genre_name = "Video Games"
+//        genre.genre_color = "green"
+//        dao.addGenre(genre)
+//
+//        genre =  Genre()
+//        genre.genre_name = "Musical"
+//        genre.genre_color = "green"
+//        dao.addGenre(genre)
 
         genreArrayList = dao.getGenres()
+        println(genreArrayList.toString())
     }
 }
