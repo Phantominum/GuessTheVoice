@@ -1,11 +1,10 @@
 package ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model
 
 data class User(
-    var username: String = "",
-    var password: String = "",
     var email: String = "",
-    var quizzes: ArrayList<Quiz>? = null,
-    var liked: ArrayList<Quiz>? = null
+    var password: String = "",
+    var quizzes: ArrayList<Int>? = null,
+    var liked: ArrayList<Int>? = null
 ) {
-    constructor(): this("","","",null,null)
+    constructor(): this("","",null,null)
 }

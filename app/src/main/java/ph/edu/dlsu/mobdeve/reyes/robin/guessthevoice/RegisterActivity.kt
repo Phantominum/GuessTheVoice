@@ -20,7 +20,7 @@ import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.*
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var binding: ActivityRegisterBinding
-    private lateinit var etUsername: EditText
+    private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var btnRegister: Button
     private lateinit var textError: TextView
@@ -38,7 +38,7 @@ class RegisterActivity : AppCompatActivity() {
         // Setup dao
         dao = UserDAO(applicationContext)
         // Set fields
-        etUsername = binding.registerUsername
+        etEmail = binding.registerEmail
         etPassword = binding.registerPassword
         btnRegister = binding.btnRegister
         textError = binding.registerError
@@ -52,48 +52,26 @@ class RegisterActivity : AppCompatActivity() {
             showErrorMessages()
             saveAccountData()
         }
-
-        etUsername.addTextChangedListener {
-            val username = etUsername.text.toString()
-            val password = etPassword.text.toString()
-            // Check if username in valid format
-            val validUsername = stringhelper.validUsername(username)
-            if (!validUsername) {
-                if (errors.size < 1) {
-                    errors.add(InvalidUsername())
-                }
-                showErrorMessages()
-            } else {
-                // Remove the error if valid
-                for (e in errors) {
-                    if (e is InvalidUsername)
-                        errors.remove(e)
-                }
-                showErrorMessages()
-            }
-        }
-
     }
     private fun saveAccountData() {
-        val username = etUsername.text.toString()
+        val email = etEmail.text.toString()
         val password = etPassword.text.toString()
-        // Check if username in valid format
-        val validUsername = stringhelper.validUsername(username)
+
         // Create if fields aren't empty
-        if (username.isNotEmpty() && password.isNotEmpty() && validUsername) {
-            var user_email = username + "@guessthevoice.com"
-            firebaseAuth.createUserWithEmailAndPassword(user_email,password)
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+
+            firebaseAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener{
                     if (it.isSuccessful) {
                         Toast.makeText(this, "Account created.", Toast.LENGTH_LONG).show()
-                        etUsername.text.clear()
+                        etEmail.text.clear()
                         etPassword.text.clear()
                         textError.text = ""
                         textError.run { setTextColor(resources.getColor(R.color.white)) }
                         println("LOG: Auth credentials created")
-                        var user = User(username, password, user_email)
-                        var res = dao.createAccount(user)
-                        if (res == 1)
+                        val user = User(email, password)
+                        val res = dao.createAccount(user)
+                        if (res != null)
                             println("LOG: Received successful registration")
                         else
                             println("LOG: Received failed registration")
@@ -107,10 +85,10 @@ class RegisterActivity : AppCompatActivity() {
             }
         } else {
             // Add error messages depending on the case
-            if (username.isEmpty() || password.isEmpty())
-                errors.add(InputError("Some field/s are empty."))
-            if (!validUsername)
-                errors.add(InvalidUsername())
+            if (email.isEmpty())
+                errors.add(InputError("Email field is empty."))
+            if (password.isEmpty())
+                errors.add(InputError("Email field is empty."))
             showErrorMessages()
         }
     }

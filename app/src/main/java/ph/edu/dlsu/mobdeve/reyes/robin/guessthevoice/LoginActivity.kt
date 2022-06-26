@@ -1,18 +1,25 @@
 package ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.UserDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityLoginBinding
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.helpers.StringHelper
@@ -20,7 +27,7 @@ import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.User
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var etUsername: EditText
+    private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var textError: TextView
     private lateinit var dao: UserDAO
@@ -33,55 +40,78 @@ class LoginActivity : AppCompatActivity() {
         // Set dao
         dao = UserDAO(applicationContext)
         // Set fields
-        etUsername = binding.loginUsername
+        etEmail = binding.loginEmail
         etPassword = binding.loginPassword
         textError = binding.loginError
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.btnLogin.setOnClickListener {
             textError.text = ""
-            authenticate()
-        }
-
-
-    }
-    private fun authenticate() {
-        val username = etUsername.text.toString()
-        val email = username + "@guessthevoice.com"
-        val password = etPassword.text.toString()
-        // Check if username in valid format
-        val validUsername = StringHelper().validUsername(username)
-        // Authenticate if fields aren't empty and username is valid
-        if (email.isNotEmpty() && password.isNotEmpty() && validUsername) {
-            firebaseAuth.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener{
-                    if (it.isSuccessful) {
-                        // Fetch the user from the DB
-                        var user = dao.getAccount(username)
-                        // Erase fields
-                        clearFields()
-                        // Pass the data to next activity
-                        val bundle = Bundle()
-                        bundle.putString("username", username)
-                        val goToDashboard = Intent(this,DashboardActivity::class.java)
-                        goToDashboard.putExtras(bundle)
-                        startActivity(goToDashboard)
+            // Get fields
+            val email = etEmail.text.toString()
+            val password = etPassword.text.toString()
+            // Authenticate if fields aren't empty
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    // Async assign auth res
+                    val authRes = async {
+                        authenticate(email, password)
                     }
-                }.addOnFailureListener { err ->
-                    Toast.makeText(this, "Failed to create account.", Toast.LENGTH_LONG).show()
-                    println("LOG: Failed to log in ${err}")
-                    textError.text = err.message
-                    textError.setTextColor(getResources().getColor(R.color.vibrant_pink))
+                    if (authRes.await() != null)
+                        Log.d(TAG, "AUTH RES is ${authRes.await()!!.user}")
+                    // Async get user data after authentication
+                    val user = async {
+                        dao.getAccount(email)
+                    }
+                    if (user.await() != null)
+                        Log.d(TAG, "USER is ${user.await()!!.email}")
+                    // Switch to main thread to make UI changes
+                    withContext(Dispatchers.Main) {
+                        if (authRes.await() != null) {
+                            if (authRes.await()!!.user != null) {
+                                val user_email = user.await()?.email
+                                println("Account is found ${user_email}")
+                                val bundle = Bundle()
+                                bundle.putString("email", user_email)
+                                val goToDashboard =
+                                    Intent(this@LoginActivity, DashboardActivity::class.java)
+                                goToDashboard.putExtras(bundle)
+                                startActivity(goToDashboard)
+                                finish()
+                            } else {
+                                Toast.makeText(
+                                    this@LoginActivity,
+                                    "Account not found",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    }
                 }
-        } else {
-            Toast.makeText(this,"Fill all fields", Toast.LENGTH_LONG).show()
+            }
+
         }
+    }
+
+    suspend fun authenticate(email: String, password: String) : AuthResult? {
+        try {
+            val res = firebaseAuth.signInWithEmailAndPassword(email, password).await()
+            return res
+        } catch (err: Exception) {
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(this, "Failed to log in.", Toast.LENGTH_LONG).show()
+                println("LOG: Failed to log in ${err}")
+                textError.text = err.message
+                clearFields()
+            }
+            return null
+        }
+
     }
 
     private fun clearFields() {
-        etUsername.text.clear()
+        etEmail.text.clear()
         etPassword.text.clear()
-        textError.text = ""
         textError.setTextColor(getResources().getColor(R.color.white))
     }
 

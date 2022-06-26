@@ -45,10 +45,10 @@
             app:layout_constraintTop_toBottomOf="@id/musicLogo" />
 
         <EditText
-            android:id="@+id/login_username"
+            android:id="@+id/login_email"
             android:layout_width="match_parent"
             android:layout_height="40sp"
-            android:hint="username"
+            android:hint="Email"
             android:inputType="text"
             android:textColor="@color/black"
             android:background="@drawable/rounded_edittext"
@@ -89,7 +89,7 @@
             android:fontFamily="@font/inter"
             android:text=""
             android:textSize="12sp"
-            android:textColor="@color/white"
+            android:textColor="@color/vibrant_pink"
             android:gravity="center"
             android:layout_marginTop="10dp"
             />

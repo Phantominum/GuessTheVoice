@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.squareup.okhttp.Dispatcher
+import kotlinx.coroutines.*
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.adapter.GenreAdapter
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.GenreDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.GenreDAOArrayImpl
@@ -24,7 +27,6 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var dao: UserDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -34,10 +36,11 @@ class DashboardActivity : AppCompatActivity() {
         var bundle = intent.extras
         if (bundle != null) {
             // Get the user metadata
-            user = dao.getAccount(bundle.getString("username").toString())
-            if (user != null)
-                println("LOG: Dashboard retrieved user data")
+            val email = bundle.getString("email").toString()
+            println("LOG: Dashboard bundle got $email")
+//            setUser(email)
         }
+
         //TODO: Remove init()
         init()
         binding.genreList.layoutManager = GridLayoutManager(applicationContext,2)
@@ -63,6 +66,19 @@ class DashboardActivity : AppCompatActivity() {
         binding.buttonLikedQuizzes.setOnClickListener{
             var goToLikedQuizzes = Intent(this, LikedQuizzesActivity::class.java)
             startActivity(goToLikedQuizzes)
+        }
+    }
+
+    fun setUser(email: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val userData = async { dao.getAccount(email) }
+        }
+
+        if (user != null) {
+//            var userID = dao.getAccountDocID(user!!.email)
+            println("LOG: Dashboard retrieved ${user!!.email}")
+        } else {
+            println("LOG: Dashboard did not receive user data")
         }
     }
 

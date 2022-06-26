@@ -25,7 +25,9 @@ class QuizMaker : AppCompatActivity(), Communicator {
         super.onCreate(savedInstanceState)
         binding = ActivityQuizMakerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        // TODO: Update to receive a bundle email
+        var email = "gimmba@gim.com"
+        // Populate fragment list
         fragmentList.add(QuizStepOne.newInstance())
         fragmentList.add(QuizStepTwo())
         fragmentList.add(QuizStepThree())
