@@ -13,7 +13,7 @@ import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Quiz
 class Quizzes : AppCompatActivity() {
     private lateinit var binding: ActivityQuizzesBinding
     private lateinit var quizAdapter: QuizAdapter
-    private lateinit var quizArrayList: ArrayList<Quiz>
+    private var quizArrayList: ArrayList<Quiz>? =  null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,10 +24,11 @@ class Quizzes : AppCompatActivity() {
 //        init()
         val curr_user = "tabbeee"
 
-
-        binding.quizList.layoutManager = LinearLayoutManager(applicationContext)
-        quizAdapter = QuizAdapter(applicationContext, quizArrayList, curr_user)
-        binding.quizList.adapter = quizAdapter
+        if(quizArrayList!=null) {
+            binding.quizList.layoutManager = LinearLayoutManager(applicationContext)
+            quizAdapter = QuizAdapter(applicationContext, quizArrayList!!, curr_user)
+            binding.quizList.adapter = quizAdapter
+        }
 
 //        print("Size is ${quizArrayList.size}")
 //        print(quizArrayList)
