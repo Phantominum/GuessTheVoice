@@ -7,13 +7,18 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.adapter.GenreAdapter
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.GenreDAO
-import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.GenreDAOArrayImpl
+
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.UserDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityDashboardBinding
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Genre
@@ -27,6 +32,7 @@ class DashboardActivity : AppCompatActivity() {
     val db = Firebase.firestore
     private var user: User? = null
     private lateinit var dao: UserDAO
+    private lateinit var genredao : GenreDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -35,6 +41,7 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(binding.root)
         // Initialize dao
         dao = UserDAO(applicationContext)
+        genredao = GenreDAO(applicationContext)
         // Retrieve username from bundle
         var bundle = intent.extras
         if (bundle != null) {
@@ -43,11 +50,13 @@ class DashboardActivity : AppCompatActivity() {
             if (user != null)
                 println("LOG: Dashboard retrieved user data")
         }
-        //TODO: Remove init()
-        init()
-        binding.genreList.layoutManager = GridLayoutManager(applicationContext,2)
-        genreAdapter = GenreAdapter(applicationContext, genreArrayList)
-        binding.genreList.adapter = genreAdapter
+
+        //populate genres
+        populateGenres()
+
+//        binding.genreList.layoutManager = GridLayoutManager(applicationContext,2)
+//        genreAdapter = GenreAdapter(applicationContext, genreArrayList)
+//        binding.genreList.adapter = genreAdapter
 
         binding.genre1.setOnClickListener{
 
@@ -71,75 +80,22 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    private fun getGenres(){
-        var genre : Genre? = null
-        db.collection("Genres")
-            .get()
-            .addOnSuccessListener { result->
-                for (document in result){
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                    genre = document.toObject(Genre::class.java)
-                }
-            }
-    }
+    fun populateGenres(){
+        lifecycleScope.launch(Dispatchers.IO){
+            val tempList = async{genredao.getGenres()}
+            if (tempList.await() != null) {
+                genreArrayList = tempList.await()!!
 
-    private fun init(){
-        val dao : GenreDAO = GenreDAOArrayImpl()
-        var genre =  Genre()
-
-//        var genre : Genre? = null
-        db.collection("Genres")
-            .get()
-            .addOnSuccessListener { result->
-                for (document in result){
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                    genre = document.toObject(Genre::class.java)
-                    println("LOG genre retrieved: ${genre.toString()}")
-                    dao.addGenre(genre)
+                withContext(Dispatchers.Main){
+                    binding.genreList.layoutManager = GridLayoutManager(applicationContext,2)
+                    genreAdapter = GenreAdapter(applicationContext, genreArrayList)
+                    binding.genreList.adapter = genreAdapter
                 }
             }
 
-//        genre.genre_name = "Rock"
-//        genre.genre_color = "green"
-//        dao.addGenre(genre)
-//
-//        genre =  Genre()
-//        genre.genre_name = "Blues"
-//        genre.genre_color = "green"
-//        dao.addGenre(genre)
-//
-//        genre =  Genre()
-//        genre.genre_name = "Rap"
-//        genre.genre_color = "green"
-//        dao.addGenre(genre)
-//
-//
-//        genre =  Genre()
-//        genre.genre_name = "K-Pop"
-//        genre.genre_color = "green"
-//        dao.addGenre(genre)
-//
-//        genre =  Genre()
-//        genre.genre_name = "J-Pop"
-//        genre.genre_color = "green"
-//        dao.addGenre(genre)
-//
-//        genre =  Genre()
-//        genre.genre_name = "Classical"
-//        genre.genre_color = "green"
-//        dao.addGenre(genre)
-//
-//        genre =  Genre()
-//        genre.genre_name = "Video Games"
-//        genre.genre_color = "green"
-//        dao.addGenre(genre)
-//
-//        genre =  Genre()
-//        genre.genre_name = "Musical"
-//        genre.genre_color = "green"
-//        dao.addGenre(genre)
-
-        genreArrayList = dao.getGenres()
-        println(genreArrayList.toString())
+        }
     }
+
+
+
 }
