@@ -21,6 +21,9 @@ import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.fragments.QuizStepThree
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.fragments.QuizStepTwo
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Quiz
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Track
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.reflect.typeOf
 
 class QuizMaker : AppCompatActivity(), Communicator {
@@ -114,12 +117,14 @@ class QuizMaker : AppCompatActivity(), Communicator {
     }
 
     private fun fieldsAreValid(): Boolean {
+        //TODO: Add description
         return quiz_name.length == 0 || tracks.size == 0 || duration < 5 || duration > 30 || userEmail.length > 0
     }
 
     private fun createQuiz() {
         if (fieldsAreValid()) {
-            quiz = Quiz(quiz_name,userEmail,tracks,duration,genre)
+            val created_at = getCurrentDate()
+            quiz = Quiz(quiz_name,userEmail,tracks,duration,genre,created_at,"")
             lifecycleScope.launch(Dispatchers.IO) {
                 val quizID = async { quizDAO.createQuiz(quiz) }
                 println("LOG: Quiz has been created with ID ${quizID.await()}")
@@ -140,6 +145,13 @@ class QuizMaker : AppCompatActivity(), Communicator {
 
             }
         }
+    }
+
+    fun getCurrentDate(): String {
+        val date = Date()
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
+        val created_at: String = formatter.format(date)
+        return created_at
     }
 
     override fun passData(data: Bundle, step: Int) {
