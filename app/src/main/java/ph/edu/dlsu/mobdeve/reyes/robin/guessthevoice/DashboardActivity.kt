@@ -1,8 +1,10 @@
 package ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -12,7 +14,7 @@ import com.squareup.okhttp.Dispatcher
 import kotlinx.coroutines.*
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.adapter.GenreAdapter
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.GenreDAO
-import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.GenreDAOArrayImpl
+
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.UserDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityDashboardBinding
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Genre
@@ -26,6 +28,7 @@ class DashboardActivity : AppCompatActivity() {
     private var email: String? = null
     private var userID : String? = null
     private lateinit var dao: UserDAO
+    private lateinit var genredao : GenreDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +36,7 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(binding.root)
         // Initialize dao
         dao = UserDAO(applicationContext)
+        genredao = GenreDAO(applicationContext)
         // Retrieve username from bundle
         var bundle = intent.extras
         if (bundle != null) {
@@ -45,11 +49,13 @@ class DashboardActivity : AppCompatActivity() {
             email="gimmba@gim.com"
             setUser("gimmba@gim.com")
         }
-        // TODO: Remove init()
-        init()
-        binding.genreList.layoutManager = GridLayoutManager(applicationContext,2)
-        genreAdapter = GenreAdapter(applicationContext, genreArrayList)
-        binding.genreList.adapter = genreAdapter
+
+        //populate genres
+        populateGenres()
+
+//        binding.genreList.layoutManager = GridLayoutManager(applicationContext,2)
+//        genreAdapter = GenreAdapter(applicationContext, genreArrayList)
+//        binding.genreList.adapter = genreAdapter
 
         binding.genre1.setOnClickListener{
 
@@ -91,50 +97,23 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    private fun init(){
-        val dao : GenreDAO = GenreDAOArrayImpl()
-        var genre =  Genre()
+ 
+    fun populateGenres(){
+        lifecycleScope.launch(Dispatchers.IO){
+            val tempList = async{genredao.getGenres()}
+            if (tempList.await() != null) {
+                genreArrayList = tempList.await()!!
 
-        genre.genre_name = "Rock"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
+                withContext(Dispatchers.Main){
+                    binding.genreList.layoutManager = GridLayoutManager(applicationContext,2)
+                    genreAdapter = GenreAdapter(applicationContext, genreArrayList)
+                    binding.genreList.adapter = genreAdapter
+                }
+            }
 
-        genre =  Genre()
-        genre.genre_name = "Blues"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-        genre =  Genre()
-        genre.genre_name = "Rap"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-
-        genre =  Genre()
-        genre.genre_name = "K-Pop"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-        genre =  Genre()
-        genre.genre_name = "J-Pop"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-        genre =  Genre()
-        genre.genre_name = "Classical"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-        genre =  Genre()
-        genre.genre_name = "Video Games"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-        genre =  Genre()
-        genre.genre_name = "Musical"
-        genre.genre_color = "green"
-        dao.addGenre(genre)
-
-        genreArrayList = dao.getGenres()
+        }
     }
+
+
+
 }

@@ -12,6 +12,9 @@ class GameEndActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val bundle = intent.extras
+        binding.textPoints.setText("${bundle!!.getInt("score").toString()} pts.")
+
         binding.buttonQuizEndBack.setOnClickListener{
             var gotoDashboard = Intent(this, DashboardActivity::class.java)
             startActivity(gotoDashboard)
