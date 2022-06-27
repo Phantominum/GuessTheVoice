@@ -3,6 +3,7 @@ package ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao
 import android.content.Context
 import android.widget.Toast
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -30,7 +31,6 @@ class UserDAO(var ctx: Context) {
     }
 
     suspend fun getAccount(email: String) : User? {
-        var user = null
         try {
             val res = dbCollection.whereEqualTo("email",email).get().await()
             return res.documents[0].toObject(User::class.java)
@@ -39,34 +39,25 @@ class UserDAO(var ctx: Context) {
         }
     }
 
-//    fun getAccountDocID(email: String): String? {
-//        var userID : String? = null
-//        dbCollection.whereEqualTo("email",email).get().addOnCompleteListener {
-//            if (it.isSuccessful) {
-//                userID =  it.result.documents[0].id
-//                if (userID != null)
-//                    println("LOG: Received userID ${userID} data")
-//                else
-//                    println("LOG: No userID for ${email} was found")
-//            } else {
-//                println("LOG: No Snapshot received in getAccountDocID")
-//            }
-//        }
-//        return userID
-//    }
+    suspend fun getAccountDocID(email: String): String? {
+        try {
+            val res = dbCollection.whereEqualTo("email",email).get().await()
+            return res.documents[0].id
+        } catch (e: Exception) {
+            return null
+        }
+    }
 
-//
-//    suspend fun addQuizToUser(id: Int, email: String) {
-//        // Get user docID
-//        var userID = getAccountDocID("email")
-//
-//         Update quizzes field of user
-//        if (userID != null) {
-//            dbCollection.document(userID).update("quizzes",quizzes)
-//                .addOnSuccessListener {
-//                    Toast.makeText(ctx, "Quiz has been created", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
+    suspend fun addQuizToUser(userID: String, quizID: String): Boolean {
+        try {
+            dbCollection.document(userID)
+                .update("quizzes",(FieldValue.arrayUnion(quizID)))
+                .await()
+            return true
+        } catch(e:Exception) {
+            println("LOG: Unable to add quiz to user")
+            return false
+        }
+    }
 
 }

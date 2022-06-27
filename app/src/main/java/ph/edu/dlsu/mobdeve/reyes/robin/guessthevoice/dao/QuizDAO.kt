@@ -7,28 +7,25 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.tasks.await
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Quiz
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.User
 
 class QuizDAO(var ctx: Context) {
     private var database: FirebaseFirestore
     private var quizRef: CollectionReference
-    private var userRef: CollectionReference
 
     init {
         database = Firebase.firestore
         quizRef = database.collection("Quizzes")
-        userRef = database.collection("Accounts")
     }
 
-    fun createQuiz(quiz: Quiz, email: String): String? {
-        var id: String? = null
-        var doc = quizRef.add(quiz).addOnSuccessListener {
-            Toast.makeText(ctx, "Successfully added a quiz!", Toast.LENGTH_SHORT).show()
-            id = it.id
-        }.addOnFailureListener {
-            Toast.makeText(ctx, "Unable to add a quiz!", Toast.LENGTH_SHORT).show()
+    suspend fun createQuiz(quiz: Quiz): String? {
+        try {
+            var doc = quizRef.add(quiz).await()
+            return doc.id
+        } catch (e: Exception) {
+            return null
         }
-        return id
     }
 }

@@ -23,7 +23,8 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var genreAdapter: GenreAdapter
     private lateinit var genreArrayList: ArrayList<Genre>
-    private var user: User? = null
+    private var email: String? = null
+    private var userID : String? = null
     private lateinit var dao: UserDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,12 +37,15 @@ class DashboardActivity : AppCompatActivity() {
         var bundle = intent.extras
         if (bundle != null) {
             // Get the user metadata
-            val email = bundle.getString("email").toString()
+            email = bundle.getString("email").toString()
             println("LOG: Dashboard bundle got $email")
-//            setUser(email)
+            setUser(email)
+        } else {
+            // TODO: Remove this when done testing
+            email="gimmba@gim.com"
+            setUser("gimmba@gim.com")
         }
-
-        //TODO: Remove init()
+        // TODO: Remove init()
         init()
         binding.genreList.layoutManager = GridLayoutManager(applicationContext,2)
         genreAdapter = GenreAdapter(applicationContext, genreArrayList)
@@ -59,8 +63,16 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         binding.buttonQuizMaker.setOnClickListener{
-            var goToQuizMaker = Intent(this, QuizMaker::class.java)
-            startActivity(goToQuizMaker)
+            if (userID != null) {
+                val quizBundle = Bundle()
+                quizBundle.putString("userID",userID)
+                quizBundle.putString("email", email)
+                val goToQuizMaker = Intent(this, QuizMaker::class.java)
+                goToQuizMaker.putExtras(quizBundle)
+                startActivity(goToQuizMaker)
+                finish()
+            }
+
         }
 
         binding.buttonLikedQuizzes.setOnClickListener{
@@ -69,16 +81,13 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    fun setUser(email: String) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val userData = async { dao.getAccount(email) }
-        }
-
-        if (user != null) {
-//            var userID = dao.getAccountDocID(user!!.email)
-            println("LOG: Dashboard retrieved ${user!!.email}")
-        } else {
-            println("LOG: Dashboard did not receive user data")
+    fun setUser(email: String?) {
+        if (email != null) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val docID = async { dao.getAccountDocID(email) }
+                // Assign document id to userID
+                userID = docID.await()
+            }
         }
     }
 

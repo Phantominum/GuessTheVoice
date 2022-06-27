@@ -15,7 +15,6 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true">
-
         </activity>
         <activity
             android:name=".RegisterActivity"
@@ -27,7 +26,7 @@
             android:name=".Quizzes"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".DashboardActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,7 +46,7 @@
             android:name=".GameEndActivity"
             android:exported="false" />
         <activity
-            android:name=".DashboardActivity"
+            android:name=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".QuizMaker"
