@@ -52,6 +52,7 @@ class QuizStepOne : Fragment() {
     }
 
     private fun setupSpinner() {
+        // TODO: Get genres from database
         val genres = arrayOf("Jazz","Pop","Classical")
         val spinner = binding.dropdownGenre
         val ctx = getActivity()?.getApplicationContext()
