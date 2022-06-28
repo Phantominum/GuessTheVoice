@@ -4,6 +4,7 @@ package ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao
 import android.content.Context
 import android.widget.Toast
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -24,6 +25,15 @@ class QuizDAO(var ctx: Context) {
         try {
             var doc = quizRef.add(quiz).await()
             return doc.id
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    suspend fun getQuizById(id: String): Quiz? {
+        try {
+            val doc = quizRef.whereEqualTo(FieldPath.documentId(), id).get().await()
+            return doc.documents[0].toObject(Quiz::class.java)
         } catch (e: Exception) {
             return null
         }

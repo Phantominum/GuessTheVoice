@@ -22,10 +22,10 @@ class GenreDAO(var ctx : Context) {
 
     suspend fun getGenres(): ArrayList<Genre>? {
         try {
-            var results = dbCollection.get().await()
-            var tempList = ArrayList<Genre>()
+            val results = dbCollection.get().await()
+            val tempList = ArrayList<Genre>()
             for (doc in results.documents) {
-                var genre = doc.toObject(Genre::class.java)
+                val genre = doc.toObject(Genre::class.java)
                 if (genre != null) {
                     tempList.add(genre)
                 }
@@ -54,6 +54,20 @@ class GenreDAO(var ctx : Context) {
         } catch(e:Exception) {
             println("LOG: Unable to add quiz to genre")
             return false
+        }
+    }
+
+    suspend fun getQuizzes(genre: String): ArrayList<String>? {
+        try {
+            val query = dbCollection.whereEqualTo("genre_name", genre).get().await()
+            var res = ArrayList<String>()
+            val genre = query.documents[0].toObject(Genre::class.java)
+            if (genre != null)
+                return genre.quizzes
+            else
+                return null
+        } catch (e: Exception) {
+            return null
         }
     }
 

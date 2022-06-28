@@ -128,7 +128,7 @@ class QuizMaker : AppCompatActivity(), Communicator {
     private fun createQuiz() {
         if (fieldsAreValid()) {
             val created_at = getCurrentDate()
-            quiz = Quiz(quiz_name,userEmail,tracks,duration,genre,created_at,description)
+            quiz = Quiz(quiz_name,userEmail,tracks,duration,genre,created_at,description,quiz_image)
             lifecycleScope.launch(Dispatchers.IO) {
                 // Add to quizzes
                 val quizID = async { quizDAO.createQuiz(quiz) }
