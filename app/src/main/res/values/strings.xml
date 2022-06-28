@@ -11,4 +11,5 @@
     <string name="quizmaker_artist_label">Artist</string>
     <string name="quizmaker_duration_label">How long will each track be played?</string>
     <string name="quizmaker_genre_label">What genre?</string>
+    <string name="quizmaker_description">Description</string>
 </resources>

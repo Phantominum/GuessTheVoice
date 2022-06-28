@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.GenreDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.QuizDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.UserDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityQuizMakerBinding
@@ -36,9 +37,11 @@ class QuizMaker : AppCompatActivity(), Communicator {
     private lateinit var userEmail : String
     private lateinit var quizDAO : QuizDAO
     private lateinit var userDAO : UserDAO
+    private lateinit var genreDAO: GenreDAO
 
     private lateinit var quiz_name : String
     private var duration : Int = 10
+    private var description : String = ""
     private lateinit var genre: String
     private var quiz_image : Int = R.drawable.thumbnail1
     private var tracks : ArrayList<Track> = ArrayList()
@@ -50,6 +53,7 @@ class QuizMaker : AppCompatActivity(), Communicator {
         // Set dao
         quizDAO = QuizDAO(applicationContext)
         userDAO = UserDAO(applicationContext)
+        genreDAO = GenreDAO(applicationContext)
         // Retrieve user doc ID from bundle
         var bundle = intent.extras
         if (bundle != null) {
@@ -60,6 +64,7 @@ class QuizMaker : AppCompatActivity(), Communicator {
         } else {
             // TODO: Remove this when done testing
             userID = "Sn3T4P9vHj2JWh3Fl6Nd"
+            userEmail = "gimmba@gim.com"
         }
         // Populate fragment list
         populateFragments()
@@ -117,29 +122,33 @@ class QuizMaker : AppCompatActivity(), Communicator {
     }
 
     private fun fieldsAreValid(): Boolean {
-        //TODO: Add description
         return quiz_name.length == 0 || tracks.size == 0 || duration < 5 || duration > 30 || userEmail.length > 0
     }
 
     private fun createQuiz() {
         if (fieldsAreValid()) {
             val created_at = getCurrentDate()
-            quiz = Quiz(quiz_name,userEmail,tracks,duration,genre,created_at,"")
+            quiz = Quiz(quiz_name,userEmail,tracks,duration,genre,created_at,description)
             lifecycleScope.launch(Dispatchers.IO) {
+                // Add to quizzes
                 val quizID = async { quizDAO.createQuiz(quiz) }
                 println("LOG: Quiz has been created with ID ${quizID.await()}")
                 if (quizID.await() != null) {
-                    val addToUser = async {
-                        userDAO.addQuizToUser(userID, quizID.await()!!)
-                    }
-                    // Create intent if quiz has been added to user successfully
-                    withContext(Dispatchers.Main) {
-                        val dashBundle = Bundle()
-                        dashBundle.putString("email", userEmail)
-                        val goToDashboard = Intent(this@QuizMaker, DashboardActivity::class.java)
-                        goToDashboard.putExtras(dashBundle)
-                        startActivity(goToDashboard)
-                        finish()
+                    // Add to user
+                    val addToUser = async { userDAO.addQuizToUser(userID, quizID.await()!!) }
+                    // Add to genre
+                    val genreID = async{ genreDAO.getGenreID(genre)}
+                    val addToQuiz = async { genreDAO.addQuizToGenre(genreID.await()!!, quizID.await()!!)}
+                    // Create intent if quiz has been added successfully
+                    if (addToQuiz.await() && addToUser.await()) {
+                        withContext(Dispatchers.Main) {
+                            val dashBundle = Bundle()
+                            dashBundle.putString("email", userEmail)
+                            val goToDashboard = Intent(this@QuizMaker, DashboardActivity::class.java)
+                            goToDashboard.putExtras(dashBundle)
+                            startActivity(goToDashboard)
+                            finish()
+                        }
                     }
                 }
 
@@ -159,19 +168,24 @@ class QuizMaker : AppCompatActivity(), Communicator {
             1 -> {
                 quiz_name = data.getString("quizName").toString()
                 duration = data.getInt("duration")
+                description = data.getString("description").toString()
                 genre = data.getString("genre").toString()
                 // Add to bundle for step 4
                 quizBundle.putString("quiz_name", quiz_name)
                 quizBundle.putString("genre", genre)
                 quizBundle.putInt("duration", duration)
+                quizBundle.putString("description", description)
+                // TODO: Remove when done testing
                 println("STEP 1: ${quiz_name} ")
                 println("STEP 1: ${duration} ")
+                println("STEP 1: ${description} ")
                 println("STEP 1: ${genre} ")
             }
             2 -> {
                 tracks = data.getParcelableArrayList<Track>("tracks")!!
                 // Add to bundle for step 4
                 quizBundle.putParcelableArrayList("tracks", tracks)
+                // TODO: Remove when done testing
                 println("STEP 2: ${tracks.size}")
             }
             3 -> {
