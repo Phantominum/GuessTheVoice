@@ -30,11 +30,14 @@ class Quizzes : AppCompatActivity() {
         // TODO: Get user email and genre string from bundle
         lateinit var userEmail : String
         lateinit var genre : String
+
         val bundle = intent.extras
         if (bundle != null) {
-            userEmail = bundle.getString("userEmail").toString()
-            genre = bundle.getString("genre").toString()
+            userEmail = bundle.getString("email").toString()
+            genre = bundle.getString("genre_name").toString()
+            println("LOG: Quizzes Bundle found $userEmail and $genre")
         } else {
+            println("LOG: No bundle found in Quizzes")
             userEmail = "gimmba@gim.com"
             genre = "Pop"
         }

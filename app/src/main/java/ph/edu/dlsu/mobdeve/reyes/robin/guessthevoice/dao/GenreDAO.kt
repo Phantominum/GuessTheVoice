@@ -45,6 +45,16 @@ class GenreDAO(var ctx : Context) {
         }
     }
 
+    suspend fun getGenre(genre: String): Genre? {
+        try {
+            val res = dbCollection.whereEqualTo("genre_name",genre).get().await()
+            return res.documents[0].toObject(Genre::class.java)
+        } catch (e: Exception) {
+            println("LOG: getGenre found error ${e.message}")
+            return null
+        }
+    }
+
     suspend fun addQuizToGenre(genreID: String, quizID: String): Boolean {
         try {
             dbCollection.document(genreID)

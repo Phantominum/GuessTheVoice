@@ -35,6 +35,7 @@ class UserDAO(var ctx: Context) {
             val res = dbCollection.whereEqualTo("email",email).get().await()
             return res.documents[0].toObject(User::class.java)
         } catch(e: Exception) {
+            println("LOG: getAccount error ${e.message}")
             return null
         }
     }

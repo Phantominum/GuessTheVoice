@@ -27,6 +27,8 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var genreArrayList: ArrayList<Genre>
     private var email: String? = null
     private var userID : String? = null
+    private var topGenres = ArrayList<Genre>()
+    private lateinit var user: User
     private lateinit var dao: UserDAO
     private lateinit var genredao : GenreDAO
 
@@ -49,21 +51,19 @@ class DashboardActivity : AppCompatActivity() {
             email="gimmba@gim.com"
             setUser("gimmba@gim.com")
         }
-
-        //populate genres
+        // Populate genres
         populateGenres()
-
-//        binding.genreList.layoutManager = GridLayoutManager(applicationContext,2)
-//        genreAdapter = GenreAdapter(applicationContext, genreArrayList)
-//        binding.genreList.adapter = genreAdapter
-
+        // Top Genre 1
         binding.genre1.setOnClickListener{
-            // TODO: Retrieve top genres from users then pass the bundle
+            val topBundle1 = Bundle()
+            topBundle1.putString("email", email)
+            topBundle1.putString("genre_name", topGenres.get(0).genre_name)
             var goToQuizzes = Intent(this, Quizzes::class.java)
+            goToQuizzes.putExtras(topBundle1)
             startActivity(goToQuizzes)
             finish()
         }
-
+        // TODO: Set for top genre 2
         binding.buttonSettings.setOnClickListener{
             var goToSettings = Intent(this, Settings::class.java)
             startActivity(goToSettings)
@@ -77,7 +77,7 @@ class DashboardActivity : AppCompatActivity() {
                 val goToQuizMaker = Intent(this, QuizMaker::class.java)
                 goToQuizMaker.putExtras(quizBundle)
                 startActivity(goToQuizMaker)
-                finish()
+//                finish()
             }
 
         }
@@ -94,10 +94,49 @@ class DashboardActivity : AppCompatActivity() {
                 val docID = async { dao.getAccountDocID(email) }
                 // Assign document id to userID
                 userID = docID.await()
+                // Get user metadata
+                val userJob = async { dao.getAccount(email) }
+                user = userJob.await()!!
+                println("LOG: User data is found ${user.username}")
+                for (genreName in user.top_genres) {
+                    // Retrieve genre metadata
+                    val genreJob = async { genredao.getGenre(genreName) }
+                    if (genreJob.await() != null) {
+                        println("LOG: Top genre found ${genreJob.await()!!.genre_name}")
+                        topGenres.add(genreJob.await()!!)
+                    }
+                    else
+                       println("LOG: No top genres found")
+                }
+
+                withContext(Dispatchers.Main) {
+                    // Update UI of top genres
+                    binding.genre1Name.text = topGenres.get(0).genre_name
+                    binding.genre2Name.text = topGenres.get(1).genre_name
+                    // TODO: Update color according to the genre_color attrib
+                }
             }
         }
     }
-
+//
+//    fun populateTopGenres() {
+//        lifecycleScope.async(Dispatchers.IO) {
+//            // Iterate each genre in user's top genres
+//            for (genreName in user.topGenres) {
+//                // Retrieve genre metadata
+//                val genreJob = async { genredao.getGenre(genreName) }
+//                if (genreJob.await() != null)
+//                    topGenres.add(genreJob.await()!!)
+//            }
+//
+//            withContext(Dispatchers.Main) {
+//                // Update UI of top genres
+//                binding.genre1Name.text = topGenres.get(0).genre_name
+//                binding.genre2Name.text = topGenres.get(1).genre_name
+//                // TODO: Update color according to the genre_color attrib
+//            }
+//        }
+//    }
  
     fun populateGenres(){
         lifecycleScope.launch(Dispatchers.IO){
