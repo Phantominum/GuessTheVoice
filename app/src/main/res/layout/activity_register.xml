@@ -52,6 +52,7 @@
             android:textColor="@color/black"
             android:background="@drawable/rounded_edittext"
             android:layout_marginTop="30dp"
+            android:maxLines="1"
             >
         </EditText>
 
@@ -64,6 +65,7 @@
             android:textColor="@color/black"
             android:background="@drawable/rounded_edittext"
             android:layout_marginTop="15dp"
+            android:maxLines="1"
             >
         </EditText>
 

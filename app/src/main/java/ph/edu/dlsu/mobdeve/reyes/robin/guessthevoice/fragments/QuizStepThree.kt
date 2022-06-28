@@ -31,15 +31,19 @@ class QuizStepThree: Fragment() {
         // Set click listeners
         binding.thumbnail1.setOnClickListener {
             thumbnail = R.drawable.thumbnail1
+            println("LOG: Selected $thumbnail")
         }
         binding.thumbnail2.setOnClickListener {
             thumbnail = R.drawable.thumbnail2
+            println("LOG: Selected $thumbnail")
         }
         binding.thumbnail3.setOnClickListener {
             thumbnail = R.drawable.thumbnail3
+            println("LOG: Selected $thumbnail")
         }
         binding.thumbnail4.setOnClickListener {
             thumbnail = R.drawable.thumbnail1
+            println("LOG: Selected $thumbnail")
         }
 
         return view
@@ -48,6 +52,7 @@ class QuizStepThree: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         val bundle = Bundle()
+        println("LOG: Thumbnail to pass is $thumbnail")
         bundle.putInt("quiz_image",thumbnail)
         communicator.passData(bundle, 3)
         _binding = null

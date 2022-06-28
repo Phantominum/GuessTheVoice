@@ -49,6 +49,7 @@
             android:background="@drawable/rounded_edittext"
             android:paddingVertical="15dp"
             android:paddingHorizontal="10dp"
+            android:maxLines="1"
             />
 
         <TextView
@@ -71,6 +72,7 @@
             android:background="@drawable/rounded_edittext"
             android:paddingVertical="15dp"
             android:paddingHorizontal="10dp"
+            android:maxLines="1"
             />
     </LinearLayout>
 

@@ -58,9 +58,10 @@ class DashboardActivity : AppCompatActivity() {
 //        binding.genreList.adapter = genreAdapter
 
         binding.genre1.setOnClickListener{
-
+            // TODO: Retrieve top genres from users then pass the bundle
             var goToQuizzes = Intent(this, Quizzes::class.java)
             startActivity(goToQuizzes)
+            finish()
         }
 
         binding.buttonSettings.setOnClickListener{
