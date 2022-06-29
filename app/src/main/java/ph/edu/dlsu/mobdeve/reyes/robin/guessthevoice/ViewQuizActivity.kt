@@ -19,7 +19,6 @@ class ViewQuizActivity : AppCompatActivity() {
         binding.textViewQuizName.text = "${bundle!!.getString("quiz_name")}"
         binding.textViewQuizCreator.text = "${bundle!!.getString("quiz_creator")}"
         binding.viewQuizImage.setImageResource(bundle.getInt("quiz_image"))
-
         binding.buttonPlayQuiz.setOnClickListener{
 
             var goToTakeQuiz = Intent(this, TakeQuizActivity::class.java)

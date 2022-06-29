@@ -70,8 +70,6 @@ class QuizAdapter (
             bundle.putString("quiz_likes", quiz.likes.toString())
             bundle.putInt("quiz_image", quiz.quiz_image)
 
-
-
             goToQuiz.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
             goToQuiz.putExtras(bundle)

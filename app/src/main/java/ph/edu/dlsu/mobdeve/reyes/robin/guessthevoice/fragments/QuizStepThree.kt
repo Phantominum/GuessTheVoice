@@ -42,7 +42,7 @@ class QuizStepThree: Fragment() {
             println("LOG: Selected $thumbnail")
         }
         binding.thumbnail4.setOnClickListener {
-            thumbnail = R.drawable.thumbnail1
+            thumbnail = R.drawable.thumbnail4
             println("LOG: Selected $thumbnail")
         }
 
