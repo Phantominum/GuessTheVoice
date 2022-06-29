@@ -71,7 +71,7 @@ class RegisterActivity : AppCompatActivity() {
                         textError.text = ""
                         textError.run { setTextColor(resources.getColor(R.color.white)) }
                         println("LOG: Auth credentials created")
-                        val user = User(email, password)
+                        val user = User(email, password, email)
                         val res = dao.createAccount(user)
                         if (res != null)
                             println("LOG: Received successful registration")

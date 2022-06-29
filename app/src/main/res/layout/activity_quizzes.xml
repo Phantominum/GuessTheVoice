@@ -68,7 +68,7 @@
                     android:layout_margin="7dp"
                     android:spinnerMode="dropdown"
                     android:textColor="@color/white"
-                    android:background="@color/green"
+                    android:background="@drawable/red_background"
                     android:textSize="15sp" />
             </RelativeLayout>
 
