@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -79,11 +80,14 @@ class LoginActivity : AppCompatActivity() {
                                 startActivity(goToDashboard)
                                 finish()
                             } else {
-                                Toast.makeText(
-                                    this@LoginActivity,
-                                    "Account not found",
-                                    Toast.LENGTH_LONG
-                                ).show()
+//                                Toast.makeText(
+//                                    this@LoginActivity,
+//                                    "Account not found",
+//                                    Toast.LENGTH_LONG
+//                                ).show()
+                                Snackbar.make(binding.root,
+                                    "Account not found.",
+                                    Snackbar.LENGTH_LONG).show()
                             }
                         }
                     }
@@ -99,7 +103,8 @@ class LoginActivity : AppCompatActivity() {
             return res
         } catch (err: Exception) {
             Handler(Looper.getMainLooper()).post {
-                Toast.makeText(this, "Failed to log in.", Toast.LENGTH_LONG).show()
+//                Toast.makeText(this, "Failed to log in.", Toast.LENGTH_LONG).show()
+                Snackbar.make(binding.root, "Failed to Log in", Snackbar.LENGTH_LONG).show()
                 println("LOG: Failed to log in ${err}")
                 textError.text = err.message
                 clearFields()
