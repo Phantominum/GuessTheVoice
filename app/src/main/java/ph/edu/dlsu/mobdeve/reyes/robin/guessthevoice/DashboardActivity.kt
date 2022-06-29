@@ -60,7 +60,7 @@ class DashboardActivity : AppCompatActivity() {
             topBundle1.putString("email", email)
             topBundle1.putString("genre_name", topGenres.get(0).genre_name)
             topBundle1.putString("genre_color", topGenres.get(0).genre_color)
-            var goToQuizzes = Intent(this, Quizzes::class.java)
+            val goToQuizzes = Intent(this, Quizzes::class.java)
             goToQuizzes.putExtras(topBundle1)
             startActivity(goToQuizzes)
 //            finish()
@@ -71,7 +71,7 @@ class DashboardActivity : AppCompatActivity() {
             topBundle2.putString("email", email)
             topBundle2.putString("genre_name", topGenres.get(1).genre_name)
             topBundle2.putString("genre_color", topGenres.get(1).genre_color)
-            var goToQuizzes = Intent(this, Quizzes::class.java)
+            val goToQuizzes = Intent(this, Quizzes::class.java)
             goToQuizzes.putExtras(topBundle2)
             startActivity(goToQuizzes)
 //            finish()
@@ -132,25 +132,6 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
     }
-//
-//    fun populateTopGenres() {
-//        lifecycleScope.async(Dispatchers.IO) {
-//            // Iterate each genre in user's top genres
-//            for (genreName in user.topGenres) {
-//                // Retrieve genre metadata
-//                val genreJob = async { genredao.getGenre(genreName) }
-//                if (genreJob.await() != null)
-//                    topGenres.add(genreJob.await()!!)
-//            }
-//
-//            withContext(Dispatchers.Main) {
-//                // Update UI of top genres
-//                binding.genre1Name.text = topGenres.get(0).genre_name
-//                binding.genre2Name.text = topGenres.get(1).genre_name
-//                // TODO: Update color according to the genre_color attrib
-//            }
-//        }
-//    }
  
     fun populateGenres(){
         lifecycleScope.launch(Dispatchers.IO){
@@ -160,7 +141,7 @@ class DashboardActivity : AppCompatActivity() {
 
                 withContext(Dispatchers.Main){
                     binding.genreList.layoutManager = GridLayoutManager(applicationContext,2)
-                    genreAdapter = GenreAdapter(applicationContext, genreArrayList)
+                    genreAdapter = GenreAdapter(applicationContext, genreArrayList, email!!)
                     binding.genreList.adapter = genreAdapter
                 }
             }
