@@ -2,6 +2,7 @@ package ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -58,12 +59,24 @@ class DashboardActivity : AppCompatActivity() {
             val topBundle1 = Bundle()
             topBundle1.putString("email", email)
             topBundle1.putString("genre_name", topGenres.get(0).genre_name)
+            topBundle1.putString("genre_color", topGenres.get(0).genre_color)
             var goToQuizzes = Intent(this, Quizzes::class.java)
             goToQuizzes.putExtras(topBundle1)
             startActivity(goToQuizzes)
-            finish()
+//            finish()
         }
-        // TODO: Set for top genre 2
+
+        binding.genre2.setOnClickListener{
+            val topBundle2 = Bundle()
+            topBundle2.putString("email", email)
+            topBundle2.putString("genre_name", topGenres.get(1).genre_name)
+            topBundle2.putString("genre_color", topGenres.get(1).genre_color)
+            var goToQuizzes = Intent(this, Quizzes::class.java)
+            goToQuizzes.putExtras(topBundle2)
+            startActivity(goToQuizzes)
+//            finish()
+        }
+
         binding.buttonSettings.setOnClickListener{
             var goToSettings = Intent(this, Settings::class.java)
             startActivity(goToSettings)
@@ -114,6 +127,7 @@ class DashboardActivity : AppCompatActivity() {
                     binding.genre1Name.text = topGenres.get(0).genre_name
                     binding.genre2Name.text = topGenres.get(1).genre_name
                     // TODO: Update color according to the genre_color attrib
+                    binding.genre1.setBackgroundColor(Color.parseColor("#808080"))
                 }
             }
         }

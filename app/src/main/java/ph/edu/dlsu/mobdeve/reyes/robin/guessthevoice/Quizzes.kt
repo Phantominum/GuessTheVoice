@@ -30,21 +30,28 @@ class Quizzes : AppCompatActivity() {
         // TODO: Get user email and genre string from bundle
         lateinit var userEmail : String
         lateinit var genre : String
+        lateinit var genre_color : String
 
         val bundle = intent.extras
         if (bundle != null) {
             userEmail = bundle.getString("email").toString()
             genre = bundle.getString("genre_name").toString()
+            genre_color = bundle.getString("genre_color").toString()
             println("LOG: Quizzes Bundle found $userEmail and $genre")
         } else {
             println("LOG: No bundle found in Quizzes")
             userEmail = "gimmba@gim.com"
             genre = "Pop"
+            genre_color = "#808080"
         }
 
         // Setup dao
         genreDAO = GenreDAO(applicationContext)
         quizDAO = QuizDAO(applicationContext)
+        // Update banner
+        binding.bannerText.text = genre
+        // TODO: Update banner color
+
         lifecycleScope.launch(Dispatchers.IO) {
             // Get all genre quizzes
             val genreJob = async{ genreDAO.getQuizzes(genre) }
