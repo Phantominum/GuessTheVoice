@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -63,7 +64,8 @@ class RegisterActivity : AppCompatActivity() {
             firebaseAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener{
                     if (it.isSuccessful) {
-                        Toast.makeText(this, "Account created.", Toast.LENGTH_LONG).show()
+//                        Toast.makeText(this, "Account created.", Toast.LENGTH_LONG).show()
+                        Snackbar.make(binding.root, "Account created.", Snackbar.LENGTH_LONG).show()
                         etEmail.text.clear()
                         etPassword.text.clear()
                         textError.text = ""

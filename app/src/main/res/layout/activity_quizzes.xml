@@ -37,28 +37,38 @@
             android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Quizzes"
-                android:fontFamily="@font/inter_bold"
-                android:textColor="@color/white"
-                android:padding="18sp"
-                android:textSize="15sp"
-                />
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:fontFamily="@font/inter"
-                android:gravity="right"
-                android:padding="18dp"
-                android:text="Sort By: Recent"
-                android:textAlignment="gravity"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
+                >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_alignParentLeft="true"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="bottom"
+                    android:padding="18sp"
+                    android:text="Quizzes"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:layout_centerInParent="true"
+
+                    />
+                <Spinner
+                    android:id="@+id/filter"
+                    android:layout_width="120dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="@font/inter"
+                    android:textAlignment="center"
+                    android:layout_margin="7dp"
+                    android:spinnerMode="dropdown"
+                    android:textColor="@color/white"
+                    android:background="@color/green"
+                    android:textSize="15sp" />
+            </RelativeLayout>
 
 
         </LinearLayout>
