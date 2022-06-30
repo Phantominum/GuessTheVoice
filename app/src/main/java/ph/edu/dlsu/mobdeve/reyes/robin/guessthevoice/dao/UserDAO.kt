@@ -61,4 +61,23 @@ class UserDAO(var ctx: Context) {
         }
     }
 
+    suspend fun updateUsername(userID: String, username : String): Boolean {
+        try {
+            dbCollection.document(userID).update("username", username)
+            return true
+        } catch (e: Exception) {
+            return false
+            println("Unable to update username")
+        }
+    }
+
+    suspend fun updateTopGenres(userID: String, genres : ArrayList<String>): Boolean {
+        try {
+            dbCollection.document(userID).update("top_genres", genres)
+            return true
+        } catch (e: Exception) {
+            println("Unable to update topGenres")
+            return false
+        }
+    }
 }

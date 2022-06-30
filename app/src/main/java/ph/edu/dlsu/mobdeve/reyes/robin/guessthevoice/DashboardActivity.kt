@@ -78,7 +78,13 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         binding.buttonSettings.setOnClickListener{
-            var goToSettings = Intent(this, Settings::class.java)
+            val settingsBundle = Bundle()
+            settingsBundle.putString("username", user.username)
+            settingsBundle.putString("userID",userID)
+            settingsBundle.putString("topGenre1", topGenres.get(0).genre_name)
+            settingsBundle.putString("topGenre2", topGenres.get(1).genre_name)
+            val goToSettings = Intent(this, Settings::class.java)
+            goToSettings.putExtras(settingsBundle)
             startActivity(goToSettings)
         }
 
