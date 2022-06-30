@@ -110,8 +110,9 @@ class QuizStepOne : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onStop() {
+        super.onStop()
+        println("STOP")
         val bundle = Bundle()
         bundle.putString("quizName", binding.etQuizName.text.toString())
         bundle.putInt("duration", duration)

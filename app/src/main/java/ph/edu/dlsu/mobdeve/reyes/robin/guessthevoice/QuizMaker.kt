@@ -45,7 +45,7 @@ class QuizMaker : AppCompatActivity(), Communicator {
     private lateinit var genre: String
     private var quiz_image : Int = R.drawable.thumbnail1
     private var tracks : ArrayList<Track> = ArrayList()
-
+    private var tracksID : ArrayList<String> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQuizMakerBinding.inflate(layoutInflater)
@@ -88,7 +88,11 @@ class QuizMaker : AppCompatActivity(), Communicator {
                     binding.fragment2Btn.setOnClickListener{
                         createQuiz()
                     }
+                } else if (currentFragIndex == 1) {
+                    // Set bundle argument
+                    fragmentList[currentFragIndex].setArguments(quizBundle)
                 }
+
                 replaceFragment(fragmentList[currentFragIndex], currentFragIndex)
                 binding.breadcrumbs.setText("Step ${currentFragIndex + 1} of 4")
             }
@@ -99,11 +103,13 @@ class QuizMaker : AppCompatActivity(), Communicator {
         println("Replaced to index $step")
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragmentContainer, fragment)
-        if (step > 0)
-            fragmentTransaction.remove(fragmentList[step-1]).commit()
-        else
-            fragmentTransaction.commit()
+        if (step > 0) {
+            fragmentTransaction.remove(fragmentList[step-1])
+            println("Removed step: $step fragment")
+        }
+//        else
+//            fragmentTransaction.commit()
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment).commit()
     }
 
     private fun makePublishButton() {
@@ -128,7 +134,8 @@ class QuizMaker : AppCompatActivity(), Communicator {
     private fun createQuiz() {
         if (fieldsAreValid()) {
             val created_at = getCurrentDate()
-            quiz = Quiz(quiz_name,userEmail,tracks,duration,genre,created_at,description,quiz_image)
+
+            quiz = Quiz(quiz_name,userEmail,tracksID,duration,genre,created_at,description,quiz_image)
             lifecycleScope.launch(Dispatchers.IO) {
                 // Add to quizzes
                 val quizID = async { quizDAO.createQuiz(quiz) }
@@ -183,10 +190,11 @@ class QuizMaker : AppCompatActivity(), Communicator {
             }
             2 -> {
                 tracks = data.getParcelableArrayList<Track>("tracks")!!
+                tracksID = data.getStringArrayList("tracksID")!!
                 // Add to bundle for step 4
                 quizBundle.putParcelableArrayList("tracks", tracks)
                 // TODO: Remove when done testing
-                println("STEP 2: ${tracks.size}")
+                println("STEP 2: tracks ${tracks.size}, tracksID ${tracksID.size}")
             }
             3 -> {
                 quiz_image = data.getInt("quiz_image")

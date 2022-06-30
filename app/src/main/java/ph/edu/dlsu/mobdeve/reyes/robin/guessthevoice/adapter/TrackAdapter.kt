@@ -4,21 +4,19 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.TrackDAOArrayImpl
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.QuizmakerTrackBinding
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Track
 
 class TrackAdapter(
     private var context: Context?,
-    private var trackArray: ArrayList<Track>,
-    private var dao: TrackDAOArrayImpl
+    private var trackArray: ArrayList<Track>
 ): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
     inner class TrackViewHolder(private val itemBinding: QuizmakerTrackBinding)
         : RecyclerView.ViewHolder(itemBinding.root) {
             fun  bindTrack(track: Track) {
-                itemBinding.trackArtist.setText(track.artist)
-                itemBinding.trackName.setText(track.name)
+                itemBinding.trackArtist.setText(track.Artist)
+                itemBinding.trackName.setText(track.SongName)
             }
         }
 
@@ -41,13 +39,10 @@ class TrackAdapter(
     fun removeTrack(position: Int) {
         trackArray.removeAt(position)
         notifyItemRemoved(position)
-        notifyDataSetChanged()
     }
 
     fun addTrack(track: Track) {
         trackArray.add(0,track)
-        dao.addTrack(track)
         notifyItemInserted(0)
-        notifyDataSetChanged()
     }
 }

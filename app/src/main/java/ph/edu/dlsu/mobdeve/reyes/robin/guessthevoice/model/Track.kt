@@ -5,7 +5,10 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Track (
-    var name: String? = null,
-    var artist: String? = null,
-    var music_url: String? = null
-): Parcelable
+    var SongName: String? = null,
+    var Artist: String? = null,
+    var Audio_URL: String? = null,
+    var Genre: String = ""
+): Parcelable {
+    constructor() : this("","", "","")
+}

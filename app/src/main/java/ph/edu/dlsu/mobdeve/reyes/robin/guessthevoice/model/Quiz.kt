@@ -5,7 +5,7 @@ import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.R
 data class Quiz(
     var quiz_name: String,
     var quiz_creator:String,
-    var tracks: ArrayList<Track>,
+    var tracks: ArrayList<String>,
     var duration: Int=10,
     var genre: String="",
     var created_at: String,
