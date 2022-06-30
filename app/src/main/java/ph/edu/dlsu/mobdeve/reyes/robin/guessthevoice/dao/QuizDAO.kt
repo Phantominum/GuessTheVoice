@@ -38,4 +38,39 @@ class QuizDAO(var ctx: Context) {
             return null
         }
     }
+
+    suspend fun getQuizMetadataID(name: String, genre: String, created_at: String, creator: String): String? {
+        try {
+            val res = quizRef
+                .whereEqualTo("quiz_name",name)
+                .whereEqualTo("genre",genre)
+                .whereEqualTo("quiz_creator", creator)
+                .whereEqualTo("created_at", created_at)
+                .get().await()
+            return res.documents[0].id
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    suspend fun updateLikes(quizID: String, value : Int): Int {
+        try {
+            quizRef.document(quizID).update("likes", value).await()
+            val res = quizRef.whereEqualTo(FieldPath.documentId(), quizID).get().await()
+            val quizObj = res.documents[0].toObject(Quiz::class.java)
+            return quizObj!!.likes
+        } catch (e: Exception) {
+            return -1
+        }
+    }
+
+    suspend fun getLikes(quizID: String): Int {
+        try {
+            val res = quizRef.whereEqualTo(FieldPath.documentId(), quizID).get().await()
+            val quizObj = res.documents[0].toObject(Quiz::class.java)
+            return quizObj!!.likes
+        } catch (e: Exception) {
+            return -1
+        }
+    }
 }

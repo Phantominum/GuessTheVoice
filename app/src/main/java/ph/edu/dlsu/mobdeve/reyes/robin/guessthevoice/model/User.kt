@@ -8,5 +8,5 @@ data class User(
     var quizzes: ArrayList<String>? = null,
     var top_genres: ArrayList<String> = arrayListOf("Jazz","Classical")
 ) {
-    constructor(): this("","","",null, null, ArrayList())
+    constructor(): this("","","", ArrayList(), ArrayList(), ArrayList())
 }

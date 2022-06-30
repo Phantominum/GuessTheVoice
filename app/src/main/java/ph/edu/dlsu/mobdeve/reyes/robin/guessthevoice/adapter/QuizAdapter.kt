@@ -65,7 +65,10 @@ class QuizAdapter (
 
             var goToQuiz = Intent(context, ViewQuizActivity::class.java)
             var bundle = Bundle()
+            bundle.putString("email", curr_user)
             bundle.putString("quiz_name", quiz.quiz_name)
+            bundle.putString("genre", quiz.genre)
+            bundle.putString("created_at", quiz.created_at)
             bundle.putString("quiz_creator", quiz.quiz_creator)
             bundle.putString("quiz_likes", quiz.likes.toString())
             bundle.putInt("quiz_image", quiz.quiz_image)

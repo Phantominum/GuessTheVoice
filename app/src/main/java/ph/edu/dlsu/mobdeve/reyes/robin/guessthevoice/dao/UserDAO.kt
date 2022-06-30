@@ -61,6 +61,30 @@ class UserDAO(var ctx: Context) {
         }
     }
 
+    suspend fun addQuizToLiked(userID: String, quizID: String): Boolean {
+        try {
+            dbCollection.document(userID)
+                .update("liked",(FieldValue.arrayUnion(quizID)))
+                .await()
+            return true
+        } catch(e:Exception) {
+            println("LOG: Unable to add quiz to likes")
+            return false
+        }
+    }
+
+    suspend fun removeQuizToLiked(userID: String, quizID: String): Boolean {
+        try {
+            dbCollection.document(userID)
+                .update("liked",(FieldValue.arrayRemove(quizID)))
+                .await()
+            return true
+        } catch(e:Exception) {
+            println("LOG: Unable to remove quiz from likes")
+            return false
+        }
+    }
+
     suspend fun updateUsername(userID: String, username : String): Boolean {
         try {
             dbCollection.document(userID).update("username", username)
@@ -78,6 +102,16 @@ class UserDAO(var ctx: Context) {
         } catch (e: Exception) {
             println("Unable to update topGenres")
             return false
+        }
+    }
+
+    suspend fun getLikedQuizzes(email: String): ArrayList<String>? {
+        try {
+            val res = dbCollection.whereEqualTo("email", email).get().await()
+            return res.documents[0].toObject(User::class.java)?.liked
+        } catch (e: Exception) {
+            println("LOG: Unable to get liked quizzes ${e.message}")
+            return null
         }
     }
 }

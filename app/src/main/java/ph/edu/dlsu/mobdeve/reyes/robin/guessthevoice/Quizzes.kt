@@ -128,7 +128,7 @@ class Quizzes : AppCompatActivity() {
         val arrayAdapter = ctx?.let {
             ArrayAdapter(
                 it,
-                R.layout.spinner_item,
+                R.layout.spinner_dark_item,
                 choices
             )
         }
