@@ -155,6 +155,55 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        println("RESUME")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("STOP")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("RESTART")
+        topGenres = ArrayList()
+        if (email != null) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val docID = async { dao.getAccountDocID(email!!) }
+                // Assign document id to userID
+                userID = docID.await()
+                // Get user metadata
+                val userJob = async { dao.getAccount(email!!) }
+                user = userJob.await()!!
+                println("LOG: User data is found ${user.username}")
+                for (genreName in user.top_genres) {
+                    // Retrieve genre metadata
+                    val genreJob = async { genredao.getGenre(genreName) }
+                    if (genreJob.await() != null) {
+                        println("LOG: Top genre found ${genreJob.await()!!.genre_name}")
+                        topGenres.add(genreJob.await()!!)
+                    }
+                    else
+                        println("LOG: No top genres found")
+                }
+
+                withContext(Dispatchers.Main) {
+                    // Update UI of top genres
+                    binding.genre1Name.text = topGenres.get(0).genre_name
+                    binding.genre2Name.text = topGenres.get(1).genre_name
+                    // TODO: Update color according to the genre_color attrib
+                    binding.genre1.setBackgroundColor(Color.parseColor("#808080"))
+                }
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("PAUSE")
+    }
 
 
 }
