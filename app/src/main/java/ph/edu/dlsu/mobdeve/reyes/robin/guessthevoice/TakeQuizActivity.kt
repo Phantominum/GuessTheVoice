@@ -10,6 +10,7 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityTakeQuizBinding
@@ -18,13 +19,13 @@ import java.io.IOException
 class TakeQuizActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTakeQuizBinding
 
-
-
     val db = Firebase.firestore
     var listOfSongs = arrayOf<String>()
     var listOfAnswers = arrayOf<String>()
+    var songIds = arrayListOf<Int>()
     var currSong = 0
     var points = 0
+    var quizTime =0
 
 
     val delayTimer =
@@ -65,16 +66,53 @@ class TakeQuizActivity : AppCompatActivity() {
 
     }
 
+    private fun getQuiz(){
+        db.collection("Quizzes")
+            .document("voTDkBpCxCDgGitwt012")
+            .get().addOnSuccessListener { doc->
+                quizTime = doc.data?.get("duration").toString().toInt()
+                songIds = doc.data!!.get("tracks") as ArrayList<Int>
+
+                getSongsFromQuiz()
+            }
+
+    }
+
+    private fun getSongsFromQuiz(){
+        db.collection("Songs")
+            .whereIn(FieldPath.documentId(), songIds)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+//                    print("${document.data}")
+//                    binding.textTrackNum.setText("${document.data.get("Artist")}")\
+                    listOfSongs+="${document.data.get("AudioURL")}"
+                    listOfAnswers+="${document.data.get("Artist")}"
+                }
+
+                binding.startButton.isEnabled = true
+
+            }
+            .addOnFailureListener { exception ->
+                Log.w(ContentValues.TAG, "Error getting documents.", exception)
+            }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityTakeQuizBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        getSongs()
+        getQuiz()
+        binding.startButton.isEnabled = false
+
+//        getSongs()
+
 
 
         binding.startButton.setOnClickListener{
             startDelayTimer()
+            binding.startButton.visibility = View.GONE
 
         }
 
@@ -136,10 +174,10 @@ class TakeQuizActivity : AppCompatActivity() {
     }
 
     private fun startTimer(){
-        object : CountDownTimer(10000, 1000) {
+        object : CountDownTimer(quizTime*1000L, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
-                if((millisUntilFinished/1000) ==9L){
+                if((millisUntilFinished/1000) ==quizTime-1L){
                     binding.timer.setText("Go!")
                 }
                 else {
@@ -171,7 +209,7 @@ class TakeQuizActivity : AppCompatActivity() {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-            val timer = object : CountDownTimer(10000, 1000) {
+            val timer = object : CountDownTimer(quizTime*1000L, 1000) {
 
                 override fun onTick(p0: Long) {
                     //do nothing
@@ -182,11 +220,13 @@ class TakeQuizActivity : AppCompatActivity() {
                     mediaPlayer!!.release()
                     currSong+=1
                     startDelayTimer()
+                    binding.scoreLabel.text = ("$points pts.")
                 }
             }
             timer.start()
         }
     }
+
 
 
 }
