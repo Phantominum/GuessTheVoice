@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="15dp"
-            android:text="Score: 15pts."
+            android:text="Score: 0pts."
             android:textAlignment="textEnd"
             android:textColor="@color/gray"
             android:fontFamily="@font/inter_semibold"
