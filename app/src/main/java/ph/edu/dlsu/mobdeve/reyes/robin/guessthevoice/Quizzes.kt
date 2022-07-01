@@ -38,7 +38,7 @@ class Quizzes : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityQuizzesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // TODO: Get user email and genre string from bundle
+
         lateinit var userEmail : String
         lateinit var genre : String
         lateinit var genre_color : String
@@ -52,6 +52,7 @@ class Quizzes : AppCompatActivity() {
             genre_color = bundle.getString("genre_color").toString()
             println("LOG: Quizzes Bundle found $userEmail and $genre")
         } else {
+            // TODO: Remove when done testing
             println("LOG: No bundle found in Quizzes")
             userEmail = "gimmba@gim.com"
             genre = "Pop"
@@ -92,34 +93,6 @@ class Quizzes : AppCompatActivity() {
                 }
             }
         }
-
-//        binding.filter.setOnItemClickListener{
-//            if(isDesc ==0){
-//                quizArrayList.sortByDescending {
-//                    it.created_at
-//                }
-//                isDesc=1
-//                quizAdapter = QuizAdapter(applicationContext, quizArrayList, userEmail)
-//                binding.quizList.adapter = quizAdapter
-//                binding.quizList.adapter!!.notifyDataSetChanged()
-//
-//
-//
-//            }
-//            else {
-//                quizArrayList.sortBy{
-//                    it.created_at
-//                }
-//                isDesc=0
-//
-//
-//            }
-//            quizAdapter = QuizAdapter(applicationContext, quizArrayList, userEmail)
-//            binding.quizList.adapter = quizAdapter
-//            binding.quizList.adapter!!.notifyDataSetChanged()
-//
-//
-//        }
     }
 
     private fun setupSpinner() {

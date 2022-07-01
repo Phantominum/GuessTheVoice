@@ -102,7 +102,10 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         binding.buttonLikedQuizzes.setOnClickListener{
+            val likeBundle = Bundle()
+            likeBundle.putString("email", email)
             var goToLikedQuizzes = Intent(this, LikedQuizzesActivity::class.java)
+            goToLikedQuizzes.putExtras(likeBundle)
             startActivity(goToLikedQuizzes)
         }
     }
@@ -155,16 +158,6 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        println("RESUME")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        println("STOP")
-    }
-
     override fun onRestart() {
         super.onRestart()
         println("RESTART")
@@ -199,11 +192,5 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
     }
-
-    override fun onPause() {
-        super.onPause()
-        println("PAUSE")
-    }
-
 
 }

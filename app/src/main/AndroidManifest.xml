@@ -36,18 +36,18 @@
             android:name=".Leaderboards"
             android:exported="false" />
         <activity
-            android:name=".DashboardActivity"
+            android:name=".ViewQuizActivity"
             android:exported="true" >
 
         </activity>
         <activity
-            android:name=".ViewQuizActivity"
+            android:name=".TakeQuizActivity"
             android:exported="false" />
         <activity
             android:name=".GameEndActivity"
             android:exported="false" />
         <activity
-            android:name=".TakeQuizActivity"
+            android:name=".DashboardActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -53,11 +53,6 @@ class ViewQuizActivity : AppCompatActivity() {
             setQuizLikes(userEmail)
         }
 
-        binding.buttonPlayQuiz.setOnClickListener{
-
-            val goToTakeQuiz = Intent(this, TakeQuizActivity::class.java)
-            startActivity(goToTakeQuiz)
-        }
 
         binding.buttonViewLeaderboards.setOnClickListener{
             val goToLeaderboards = Intent(this, Leaderboards::class.java)
@@ -139,6 +134,17 @@ class ViewQuizActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     if (liked_state)
                         binding.buttonLikeQuiz.setImageResource(R.drawable.green_heart)
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+                binding.buttonPlayQuiz.setOnClickListener{
+                    // Pass the Quiz ID
+                    val playBundle = Bundle()
+                    playBundle.putString("quizID", fullQuizData!!.quiz_name)
+                    playBundle.putStringArrayList("tracks", fullQuizData!!.tracks)
+                    val goToTakeQuiz = Intent(this@ViewQuizActivity, TakeQuizActivity::class.java)
+                    startActivity(goToTakeQuiz)
                 }
             }
 

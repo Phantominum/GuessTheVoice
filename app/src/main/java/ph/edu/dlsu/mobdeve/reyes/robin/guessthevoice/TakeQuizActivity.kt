@@ -27,7 +27,6 @@ class TakeQuizActivity : AppCompatActivity() {
     var points = 0
     var quizTime =0
 
-
     val delayTimer =
         object: CountDownTimer(3000, 1000) {
 
@@ -103,6 +102,14 @@ class TakeQuizActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        if (intent.extras != null){
+            val bundle = intent.extras
+            val quizID = bundle!!.getString("quizID").toString()
+            val tracks = bundle.getStringArrayList("tracks")
+            println("Received quiz ID: ${quizID}")
+        } else {
+            println("No quiz ID received")
+        }
         getQuiz()
         binding.startButton.isEnabled = false
 
