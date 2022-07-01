@@ -13,11 +13,13 @@ import android.view.View
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.ScoreDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityTakeQuizBinding
 import java.io.IOException
 
 class TakeQuizActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTakeQuizBinding
+    private lateinit var scoredao : ScoreDAO
 
     val db = Firebase.firestore
     var listOfSongs = arrayOf<String>()

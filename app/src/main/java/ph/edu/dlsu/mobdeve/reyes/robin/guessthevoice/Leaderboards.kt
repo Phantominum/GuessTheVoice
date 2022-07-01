@@ -2,23 +2,38 @@ package ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.adapter.ScoreAdapter
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.QuizDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.ScoreDAO
-import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.ScoreDAOArrayImpl
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.UserDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityLeaderboardsBinding
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Score
 
 class Leaderboards : AppCompatActivity() {
     private lateinit var binding: ActivityLeaderboardsBinding
     private lateinit var scoreAdapter: ScoreAdapter
-    private lateinit var scoreArrayList: ArrayList<Score>
+    private var scoreArrayList= ArrayList<Score>()
+    private lateinit var scoredao: ScoreDAO
+    private lateinit var quizdao: QuizDAO
+    private lateinit var user : String
+    private var curr_user = "tabbeee"
+    private var quizID = "voTDkBpCxCDgGitwt012"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLeaderboardsBinding.inflate(layoutInflater)
+        scoredao = ScoreDAO(applicationContext)
+        quizdao = QuizDAO(applicationContext)
         setContentView(binding.root)
-        init()
+        populateScores()
+
 
         val curr_user = "tabbeee"
 
@@ -27,19 +42,30 @@ class Leaderboards : AppCompatActivity() {
         binding.scoreList.adapter = scoreAdapter
     }
 
-    private fun init() {
-        val dao: ScoreDAO = ScoreDAOArrayImpl()
-        var score = Score()
-        score.rank = 1
-        score.username = "vissariown"
-        score.points = 25
-        dao.addScore(score)
+   fun populateScores(){
+       lifecycleScope.launch(Dispatchers.IO){
+           getQuizName()
+           val tempList = async{scoredao.getScores(
+                   quizID)}
+           if (tempList.await() != null) {
+               scoreArrayList = tempList.await()!!
+               println(scoreArrayList.size)
+               withContext(Dispatchers.Main){
+                   binding.scoreList.layoutManager = LinearLayoutManager(applicationContext)
+                   scoreAdapter = ScoreAdapter(applicationContext, scoreArrayList, curr_user!!)
+                   binding.scoreList.adapter = scoreAdapter
+               }
+           }
+           else{
+               println("ERROR: No scores found!")
+           }
 
-        score = Score()
-        score.rank = 2
-        score.username = "tabbeee"
-        score.points = 20
-        dao.addScore(score)
-        scoreArrayList = dao.getScores()
+       }
+   }
+
+    suspend fun getQuizName(){
+        var quiz = quizdao.getQuizById(quizID)
+        var name = quiz!!.quiz_name
+        binding.textQuizName.text = name
     }
 }
