@@ -27,7 +27,7 @@ class ViewQuizActivity : AppCompatActivity() {
     private lateinit var quiz_creator : String
     private var liked_state = false
     private var likes = 0
-
+    private var userEmail: String? = null
     private var quizID : String? = null
     private var fullQuizData : Quiz? = Quiz()
 
@@ -40,7 +40,7 @@ class ViewQuizActivity : AppCompatActivity() {
         quizDAO = QuizDAO(applicationContext)
         // Retrieve bundle
         val bundle = intent.extras
-        val userEmail = bundle!!.getString("email")
+        userEmail = bundle!!.getString("email")
         quiz_name = bundle.getString("quiz_name").toString()
         quiz_genre = bundle.getString("genre").toString()
         quiz_created_at = bundle.getString("created_at").toString()
@@ -50,14 +50,9 @@ class ViewQuizActivity : AppCompatActivity() {
         binding.viewQuizImage.setImageResource(bundle.getInt("quiz_image"))
         // Set quiz likes
         if (userEmail != null) {
-            setQuizLikes(userEmail)
+            setQuizLikes(userEmail!!)
         }
 
-        binding.buttonPlayQuiz.setOnClickListener{
-
-            val goToTakeQuiz = Intent(this, TakeQuizActivity::class.java)
-            startActivity(goToTakeQuiz)
-        }
 
         binding.buttonViewLeaderboards.setOnClickListener{
             val goToLeaderboards = Intent(this, Leaderboards::class.java)
@@ -139,6 +134,18 @@ class ViewQuizActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     if (liked_state)
                         binding.buttonLikeQuiz.setImageResource(R.drawable.green_heart)
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+                binding.buttonPlayQuiz.setOnClickListener{
+                    // Pass the Quiz ID
+                    val playBundle = Bundle()
+                    playBundle.putString("userEmail", userEmail)
+                    playBundle.putString("quizID", fullQuizData!!.quiz_name)
+                    playBundle.putStringArrayList("tracks", fullQuizData!!.tracks)
+                    val goToTakeQuiz = Intent(this@ViewQuizActivity, TakeQuizActivity::class.java)
+                    startActivity(goToTakeQuiz)
                 }
             }
 
