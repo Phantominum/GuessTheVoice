@@ -10,11 +10,16 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.ScoreDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityTakeQuizBinding
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Score
 import java.io.IOException
 
 class TakeQuizActivity : AppCompatActivity() {
@@ -28,6 +33,8 @@ class TakeQuizActivity : AppCompatActivity() {
     var currSong = 0
     var points = 0
     var quizTime =0
+    var quizID = ""
+    var email = ""
 
     val delayTimer =
         object: CountDownTimer(3000, 1000) {
@@ -68,8 +75,9 @@ class TakeQuizActivity : AppCompatActivity() {
     }
 
     private fun getQuiz(){
+        println("QUIZ ID $quizID")
         db.collection("Quizzes")
-            .document("voTDkBpCxCDgGitwt012")
+            .document(quizID)
             .get().addOnSuccessListener { doc->
                 quizTime = doc.data?.get("duration").toString().toInt()
                 songIds = doc.data!!.get("tracks") as ArrayList<Int>
@@ -106,9 +114,8 @@ class TakeQuizActivity : AppCompatActivity() {
 
         if (intent.extras != null){
             val bundle = intent.extras
-            val email = bundle!!.getString("userEmail").toString()
-            val quizID = bundle.getString("quizID").toString()
-            val tracks = bundle.getStringArrayList("tracks")
+            email = bundle!!.getString("userEmail").toString()
+            quizID = bundle.getString("quizID").toString()
             println("Received quiz ID: ${quizID}")
         } else {
             println("No quiz ID received")
@@ -175,11 +182,9 @@ class TakeQuizActivity : AppCompatActivity() {
             delayTimer.start()
         }
         else{
-            val goToScorePageActivity = Intent(this, GameEndActivity::class.java)
-            val bundle = Bundle()
-            bundle.putInt("score", points)
-            goToScorePageActivity.putExtras(bundle)
-            startActivity(goToScorePageActivity)
+            lifecycleScope.launch(Dispatchers.IO) {
+                addToLeaderboard(points, quizID, email)
+            }
         }
     }
 
@@ -227,6 +232,7 @@ class TakeQuizActivity : AppCompatActivity() {
 
                 override fun onFinish() {
                     mediaPlayer!!.stop()
+                    mediaPlayer!!.reset()
                     mediaPlayer!!.release()
                     currSong+=1
                     startDelayTimer()
@@ -236,7 +242,28 @@ class TakeQuizActivity : AppCompatActivity() {
             timer.start()
         }
     }
+    private suspend fun addToLeaderboard(points: Int, quizID: String,username: String){
 
+        var res = db.collection("Scores").whereEqualTo("username", email).get().await()
+        if(res.documents.size>0){
+            db.collection("Scores").document(res.documents[0].id).update("points", points)
+            val goToScorePageActivity = Intent(this, GameEndActivity::class.java)
+            val bundle = Bundle()
+            bundle.putInt("score", points)
+            goToScorePageActivity.putExtras(bundle)
+            startActivity(goToScorePageActivity)
+        }
+        else {
+            db.collection("Scores").add(Score(points, quizID, username))
+                .addOnSuccessListener {
+                    val goToScorePageActivity = Intent(this, GameEndActivity::class.java)
+                    val bundle = Bundle()
+                    bundle.putInt("score", points)
+                    goToScorePageActivity.putExtras(bundle)
+                    startActivity(goToScorePageActivity)
+                }
+        }
+    }
 
 
 }

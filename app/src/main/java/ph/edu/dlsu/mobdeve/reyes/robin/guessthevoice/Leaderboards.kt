@@ -45,8 +45,8 @@ class Leaderboards : AppCompatActivity() {
    fun populateScores(){
        lifecycleScope.launch(Dispatchers.IO){
            getQuizName()
-           val tempList = async{scoredao.getScores(
-                   quizID)}
+           val tempList = async{scoredao.getScores(quizID)}
+           println("LOG: TempList has size ${tempList.await()!!.size}")
            if (tempList.await() != null) {
                scoreArrayList = tempList.await()!!
                println(scoreArrayList.size)

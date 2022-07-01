@@ -142,9 +142,10 @@ class ViewQuizActivity : AppCompatActivity() {
                     // Pass the Quiz ID
                     val playBundle = Bundle()
                     playBundle.putString("userEmail", userEmail)
-                    playBundle.putString("quizID", fullQuizData!!.quiz_name)
-                    playBundle.putStringArrayList("tracks", fullQuizData!!.tracks)
+                    playBundle.putString("quizID", quizID)
+//                    playBundle.putStringArrayList("tracks", fullQuizData!!.tracks)
                     val goToTakeQuiz = Intent(this@ViewQuizActivity, TakeQuizActivity::class.java)
+                    goToTakeQuiz.putExtras(playBundle)
                     startActivity(goToTakeQuiz)
                 }
             }
