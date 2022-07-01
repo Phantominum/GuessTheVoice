@@ -104,7 +104,8 @@ class TakeQuizActivity : AppCompatActivity() {
 
         if (intent.extras != null){
             val bundle = intent.extras
-            val quizID = bundle!!.getString("quizID").toString()
+            val email = bundle!!.getString("userEmail").toString()
+            val quizID = bundle.getString("quizID").toString()
             val tracks = bundle.getStringArrayList("tracks")
             println("Received quiz ID: ${quizID}")
         } else {
