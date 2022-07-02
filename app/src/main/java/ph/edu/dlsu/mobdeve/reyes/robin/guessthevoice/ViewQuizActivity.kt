@@ -62,9 +62,20 @@ class ViewQuizActivity : AppCompatActivity() {
 
 
         binding.buttonViewLeaderboards.setOnClickListener{
-            val goToLeaderboards = Intent(this, Leaderboards::class.java)
-            startActivity(goToLeaderboards)
+            lifecycleScope.launch(Dispatchers.IO){
+                 var leaderboardQuizID : String? = null
+                val goToLeaderboards = Intent(applicationContext, Leaderboards::class.java)
+                val quizJob = async { quizDAO.getQuizMetadataID(quiz_name,quiz_genre, quiz_created_at, quiz_creator) }
+                leaderboardQuizID = quizJob.await()
+                val bundle = Bundle()
+                bundle.putString("quizID", leaderboardQuizID)
+                bundle.putString("email", userEmail)
+                goToLeaderboards.putExtras(bundle)
+                startActivity(goToLeaderboards)
+            }
+
         }
+
 
         binding.buttonLikeQuiz.setOnClickListener{
             lifecycleScope.launch(Dispatchers.IO) {
@@ -106,6 +117,7 @@ class ViewQuizActivity : AppCompatActivity() {
         }
     }
 
+
     private fun setQuizLikes(email : String) {
         lifecycleScope.launch(Dispatchers.IO) {
             // TODO: Get list of liked quizzes from user
@@ -139,9 +151,10 @@ class ViewQuizActivity : AppCompatActivity() {
                     // Pass the Quiz ID
                     val playBundle = Bundle()
                     playBundle.putString("userEmail", userEmail)
-                    playBundle.putString("quizID", fullQuizData!!.quiz_name)
-                    playBundle.putStringArrayList("tracks", fullQuizData!!.tracks)
+                    playBundle.putString("quizID", quizID)
+//                    playBundle.putStringArrayList("tracks", fullQuizData!!.tracks)
                     val goToTakeQuiz = Intent(this@ViewQuizActivity, TakeQuizActivity::class.java)
+                    goToTakeQuiz.putExtras(playBundle)
                     startActivity(goToTakeQuiz)
                 }
             }
