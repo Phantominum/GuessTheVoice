@@ -39,6 +39,7 @@ class QuizStepTwo: Fragment() {
     private var selectedTrack: Int = -1
     private var tracks: ArrayList<Track> = ArrayList()
     private var tracksID: ArrayList<String> = ArrayList()
+
     private var selectedTracks: ArrayList<Track> = ArrayList()
     private var selectedTracksID: ArrayList<String> = ArrayList()
     private var songnames: ArrayList<String> = ArrayList()
@@ -73,7 +74,7 @@ class QuizStepTwo: Fragment() {
 
         // Recycler View
         binding.editTrackList.layoutManager = LinearLayoutManager(ctx)
-        var trackAdapter = TrackAdapter(ctx, tracks)
+        var trackAdapter = TrackAdapter(ctx, selectedTracks)
         binding.editTrackList.adapter = trackAdapter
 
         var swipeCallback = SwipeCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
@@ -83,11 +84,13 @@ class QuizStepTwo: Fragment() {
 
         binding.btnAdd.setOnClickListener {
             if (selectedTrack != -1) {
-                trackAdapter.addTrack(tracks.get(selectedTrack))
-                // Add selected track metadata
-                selectedTracks.add(tracks.get(selectedTrack))
-                // Add selected track ID
-                selectedTracksID.add(tracksID.get(selectedTrack))
+                println("Selected Track is ${selectedTrack}")
+                val toAdd = tracks.get(selectedTrack)
+//                val idx = tracks.indexOf(toAdd)
+//                selectedTracks.add(toAdd)
+//                selectedTracksID.add(tracksID.get(idx))
+                println("Track to add is ${toAdd.toString()}")
+                trackAdapter.addTrack(toAdd)
             }
         }
 
@@ -119,6 +122,7 @@ class QuizStepTwo: Fragment() {
                     )
                 }
                 spinner.adapter = arrayAdapter
+                spinner.setSelection(0)
             }
         }
 
@@ -144,9 +148,18 @@ class QuizStepTwo: Fragment() {
         super.onDestroyView()
         val bundle = Bundle()
         bundle.putParcelableArrayList("tracks",selectedTracks)
+        getSelectedTrackIDs()
         bundle.putStringArrayList("tracksID",selectedTracksID)
         communicator.passData(bundle,2)
         _binding = null
+    }
+
+    fun getSelectedTrackIDs(){
+        for (track in selectedTracks) {
+            val trackIdx = tracks.indexOf(track)
+            val trackIDIdx = tracksID.get(trackIdx)
+            selectedTracksID.add(trackIDIdx)
+        }
     }
 
     companion object {

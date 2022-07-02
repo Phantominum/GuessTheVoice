@@ -21,7 +21,9 @@ class TrackDAO(var ctx: Context) {
 
     suspend fun getTracks(genre: String): ArrayList<Track>? {
         try {
-            var results = trackRef.whereEqualTo("Genre", genre).get().await()
+            println("getTracks param genre is ${genre}")
+            val results = trackRef.whereEqualTo("Genre", genre).get().await()
+            println("FOUND: getTracks res ${results.documents.size}")
             val tempList = ArrayList<Track>()
             for (doc in results.documents) {
                 val song = doc.toObject(Track::class.java)
@@ -29,6 +31,7 @@ class TrackDAO(var ctx: Context) {
                     tempList.add(song)
                 }
             }
+            println("FOUND: getTracks ${tempList.size}")
             return tempList
         } catch (e: Exception) {
             return null
