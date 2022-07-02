@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.GlobalScope
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.R
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.ViewQuizActivity
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.QuizCardViewDesignBinding
@@ -22,21 +23,22 @@ class QuizAdapter (
     private lateinit var context: Context
     private lateinit var quizArray :ArrayList<Quiz>
     private var curr_user: String = ""
+    private var likes : ArrayList<Quiz>? = ArrayList()
 
     override fun onBindViewHolder(holder:QuizAdapter. QuizViewHolder, position: Int) {
         holder.bindQuiz(quizArray[position])
     }
 
-    constructor(context: Context,  quizArray: ArrayList<Quiz>, curr_user:String) : this() {
+    constructor(context: Context,  quizArray: ArrayList<Quiz>, curr_user:String, likes:ArrayList<Quiz>?) : this() {
         this.context = context
         this.quizArray= quizArray
         this.curr_user = curr_user
+        this.likes = likes
     }
 
     constructor(context: Context,  quizArray: ArrayList<Quiz>) : this() {
         this.context = context
         this.quizArray= quizArray
-
     }
 
     inner class QuizViewHolder(private val itemBinding: QuizCardViewDesignBinding)
@@ -56,6 +58,9 @@ class QuizAdapter (
             itemBinding.textQuizName.text = quiz.quiz_name
             itemBinding.textQuizCreator.text = quiz.quiz_creator
             itemBinding.textLikes.text = quiz.likes.toString()
+
+            if (likes!!.indexOf(quiz) > -1)
+                itemBinding.buttonQuizListLike.setImageResource(R.drawable.green_heart)
             itemBinding.quizImage.setImageResource(quiz.quiz_image)
             itemBinding.buttonQuizListLike
         }

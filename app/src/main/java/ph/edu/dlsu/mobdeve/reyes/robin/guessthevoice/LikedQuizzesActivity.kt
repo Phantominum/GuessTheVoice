@@ -20,14 +20,16 @@ class LikedQuizzesActivity : AppCompatActivity() {
     private lateinit var quizAdapter: QuizAdapter
     private var quizArrayList: ArrayList<Quiz> = ArrayList()
     private lateinit var email: String
+    private lateinit var userDAO : UserDAO
+    private lateinit var quizDAO : QuizDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityLikedQuizzesBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         // Initialize dao
-        val userDAO = UserDAO(applicationContext)
-        val quizDAO = QuizDAO(applicationContext)
+        userDAO = UserDAO(applicationContext)
+        quizDAO = QuizDAO(applicationContext)
 
         val bundle = intent.extras
         if (bundle != null) {
@@ -37,6 +39,11 @@ class LikedQuizzesActivity : AppCompatActivity() {
             email = "gimmba@gim.com"
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        quizArrayList = ArrayList()
         lifecycleScope.launch(Dispatchers.IO) {
             // Retrieve liked IDs
             val userJob = async{ userDAO.getLikedQuizzes(email)}
@@ -55,12 +62,10 @@ class LikedQuizzesActivity : AppCompatActivity() {
             // Add to adapter
             withContext(Dispatchers.Main) {
                 binding.likedQuizList.layoutManager = LinearLayoutManager(applicationContext)
-                quizAdapter = QuizAdapter(applicationContext, quizArrayList)
+                quizAdapter = QuizAdapter(applicationContext, quizArrayList,email,quizArrayList)
                 binding.likedQuizList.adapter = quizAdapter
             }
 
         }
-
-
     }
 }

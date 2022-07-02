@@ -16,10 +16,12 @@ import kotlinx.coroutines.withContext
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.adapter.QuizAdapter
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.GenreDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.QuizDAO
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.UserDAO
 
 
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityQuizzesBinding
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Quiz
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.User
 
 class Quizzes : AppCompatActivity() {
     private lateinit var binding: ActivityQuizzesBinding
@@ -27,9 +29,12 @@ class Quizzes : AppCompatActivity() {
     private var quizArrayList: ArrayList<Quiz> = ArrayList()
     private lateinit var genreDAO: GenreDAO
     private lateinit var quizDAO: QuizDAO
+    private lateinit var userDAO: UserDAO
     private lateinit var spinner: Spinner
     private var selectedSort = "Recency"
-    private var userEmailG = " "
+    private var userEmail : String = ""
+    private var likes = ArrayList<Quiz>()
+    private lateinit var genre : String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,13 +44,11 @@ class Quizzes : AppCompatActivity() {
         binding = ActivityQuizzesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lateinit var userEmail : String
-        lateinit var genre : String
         lateinit var genre_color : String
 
         val bundle = intent.extras
         spinner = binding.filter
-        setupSpinner()
+
         if (bundle != null) {
             userEmail = bundle.getString("email").toString()
             genre = bundle.getString("genre_name").toString()
@@ -58,16 +61,22 @@ class Quizzes : AppCompatActivity() {
             genre = "Pop"
             genre_color = "#808080"
         }
-
-        userEmailG = userEmail
-
+        println("LOG: Quizzes user email is $userEmail")
         // Setup dao
         genreDAO = GenreDAO(applicationContext)
         quizDAO = QuizDAO(applicationContext)
+        userDAO = UserDAO(applicationContext)
+
         // Update banner
         binding.bannerText.text = genre
         // TODO: Update banner color
+    }
 
+    override fun onResume() {
+        super.onResume()
+        quizArrayList = ArrayList()
+        likes = ArrayList()
+        setupSpinner(userEmail)
         lifecycleScope.launch(Dispatchers.IO) {
             // Get all genre quizzes
             val genreJob = async{ genreDAO.getQuizzes(genre) }
@@ -87,7 +96,7 @@ class Quizzes : AppCompatActivity() {
                     println("LOG: Genre $genre has ${quizArrayList.size} quizzes")
                     if(quizArrayList.size != 0) {
                         binding.quizList.layoutManager = LinearLayoutManager(applicationContext)
-                        quizAdapter = QuizAdapter(applicationContext, quizArrayList, userEmail)
+                        quizAdapter = QuizAdapter(applicationContext, quizArrayList, userEmail, likes)
                         binding.quizList.adapter = quizAdapter
                     }
                 }
@@ -95,7 +104,17 @@ class Quizzes : AppCompatActivity() {
         }
     }
 
-    private fun setupSpinner() {
+    private fun setupSpinner(email: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val userJob = async { userDAO.getLikedQuizzes(email)}
+            val likedQuizzes = userJob.await()
+            if (likedQuizzes != null) {
+                for (id in likedQuizzes) {
+                    val quizJob = async { quizDAO.getQuizById(id) }
+                    quizJob.await()?.let { likes.add(it) }
+                }
+            }
+        }
         val choices = arrayOf("Likes","Recency","Quiz Name")
         val ctx = applicationContext
         val arrayAdapter = ctx?.let {
@@ -121,7 +140,7 @@ class Quizzes : AppCompatActivity() {
                     quizArrayList.sortByDescending {
                         it.created_at
                     }
-                    quizAdapter = QuizAdapter(applicationContext, quizArrayList, userEmailG)
+                    quizAdapter = QuizAdapter(applicationContext, quizArrayList, userEmail, likes)
                     binding.quizList.adapter = quizAdapter
                     binding.quizList.adapter!!.notifyDataSetChanged()
                 }
@@ -129,7 +148,7 @@ class Quizzes : AppCompatActivity() {
                     quizArrayList.sortByDescending {
                         it.likes
                     }
-                    quizAdapter = QuizAdapter(applicationContext, quizArrayList, userEmailG)
+                    quizAdapter = QuizAdapter(applicationContext, quizArrayList, userEmail, likes)
                     binding.quizList.adapter = quizAdapter
                     binding.quizList.adapter!!.notifyDataSetChanged()
                 }
@@ -137,7 +156,7 @@ class Quizzes : AppCompatActivity() {
                     quizArrayList.sortByDescending {
                         it.quiz_name
                     }
-                    quizAdapter = QuizAdapter(applicationContext, quizArrayList, userEmailG)
+                    quizAdapter = QuizAdapter(applicationContext, quizArrayList, userEmail, likes)
                     binding.quizList.adapter = quizAdapter
                     binding.quizList.adapter!!.notifyDataSetChanged()
                 }

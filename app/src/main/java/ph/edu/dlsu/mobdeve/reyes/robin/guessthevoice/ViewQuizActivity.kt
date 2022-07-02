@@ -103,16 +103,6 @@ class ViewQuizActivity : AppCompatActivity() {
 
             }
 
-//            if(!liked_state){
-//                binding.buttonLikeQuiz.setImageResource(R.drawable.green_heart)
-//                liked_state = true
-//                println("LOG: Set to $liked_state")
-//            }
-//            else{
-//                binding.buttonLikeQuiz.setImageResource(R.drawable.heart)
-//                liked_state = false
-//                println("LOG: Set to $liked_state")
-//            }
         }
     }
 
