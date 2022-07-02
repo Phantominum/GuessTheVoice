@@ -157,7 +157,7 @@ class TakeQuizActivity : AppCompatActivity() {
 
         val userAnswer = binding.textAnswerField.getText().toString()
         val correctAnswer = listOfAnswers[currSong]
-        if(userAnswer == correctAnswer){
+        if(userAnswer.lowercase() == correctAnswer.lowercase()){
             points +=10
         }
 
@@ -236,7 +236,7 @@ class TakeQuizActivity : AppCompatActivity() {
                     mediaPlayer!!.release()
                     currSong+=1
                     startDelayTimer()
-                    binding.scoreLabel.text = ("$points pts.")
+                    binding.scoreLabel.text = ("Score: $points pts.")
                 }
             }
             timer.start()
