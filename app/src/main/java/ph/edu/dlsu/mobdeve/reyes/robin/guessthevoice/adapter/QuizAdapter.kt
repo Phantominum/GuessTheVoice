@@ -68,6 +68,7 @@ class QuizAdapter (
             bundle.putString("email", curr_user)
             bundle.putString("quiz_name", quiz.quiz_name)
             bundle.putString("genre", quiz.genre)
+            bundle.putString("description", quiz.description)
             bundle.putString("created_at", quiz.created_at)
             bundle.putString("quiz_creator", quiz.quiz_creator)
             bundle.putString("quiz_likes", quiz.likes.toString())

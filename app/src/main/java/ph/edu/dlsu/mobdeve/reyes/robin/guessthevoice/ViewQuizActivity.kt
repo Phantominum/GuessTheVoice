@@ -46,10 +46,17 @@ class ViewQuizActivity : AppCompatActivity() {
         quiz_created_at = bundle.getString("created_at").toString()
         quiz_creator = bundle.getString("quiz_creator").toString()
         binding.textViewQuizName.text = "${quiz_name}"
-        binding.textViewQuizCreator.text = "${quiz_creator}"
+        binding.textViewQuizDescription.text = bundle.getString("description").toString()
         binding.viewQuizImage.setImageResource(bundle.getInt("quiz_image"))
         // Set quiz likes
         if (userEmail != null) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val userJob = async {userDAO.getAccount(userEmail!!)}
+                val username = userJob.await()!!.username
+                withContext(Dispatchers.Main) {
+                    binding.textViewQuizCreator.text = "Published by ${username}"
+                }
+            }
             setQuizLikes(userEmail!!)
         }
 
