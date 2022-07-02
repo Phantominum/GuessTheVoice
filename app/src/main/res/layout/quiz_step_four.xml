@@ -16,25 +16,25 @@
         >
         <TextView
             android:id="@+id/lbl_name"
-            android:layout_width="45dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:fontFamily="@font/inter_bold"
             android:text="Name:"
+            android:layout_marginEnd="5sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/quiz_name"
             />
         <TextView
             android:id="@+id/quiz_name"
-            android:layout_width="290dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:fontFamily="@font/inter"
             android:text="Are you jazzy enough?"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@id/lbl_name"
-            app:layout_constraintRight_toRightOf="parent"
         />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -45,25 +45,24 @@
         >
         <TextView
             android:id="@+id/lbl_pub_duration"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:fontFamily="@font/inter_bold"
             android:text="Song interval:"
+            android:layout_marginEnd="5sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/pub_duration"
             />
         <TextView
             android:id="@+id/pub_duration"
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:fontFamily="@font/inter"
             android:text="10 sec."
-            android:layout_marginRight="95dp"
             app:layout_constraintLeft_toRightOf="@id/lbl_pub_duration"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -80,9 +79,10 @@
             android:textColor="@color/white"
             android:fontFamily="@font/inter_bold"
             android:text="Genre:"
+            android:layout_marginEnd="5sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/duration"
+            app:layout_constraintRight_toLeftOf="@id/genre"
             />
 
         <TextView
@@ -93,8 +93,7 @@
             android:fontFamily="@font/inter"
             android:text="Jazz"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/lbl_duration"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/lbl_genre"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
