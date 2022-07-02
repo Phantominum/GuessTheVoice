@@ -38,6 +38,10 @@ class Settings : AppCompatActivity() {
         username = binding.etUsername
         spinner1 = binding.topGenre1
         spinner2 = binding.topGenre2
+    }
+
+    override fun onResume() {
+        super.onResume()
         // Get bundle data
         val bundle = intent.extras
         if (bundle != null) {
@@ -45,6 +49,11 @@ class Settings : AppCompatActivity() {
             currUsername = bundle.getString("username")!!
             currTopGenre1 = bundle.getString("topGenre1")!!
             currTopGenre2 = bundle.getString("topGenre2")!!
+        } else {
+            println("NO BUNDLE RECEIVED")
+            val goToMainActivity = Intent(this, DashboardActivity::class.java)
+            startActivity(goToMainActivity)
+            finish()
         }
         // Spinner backend
         setupSpinner1()
@@ -55,7 +64,10 @@ class Settings : AppCompatActivity() {
         username.setText(currUsername)
 
         binding.buttonLogOut.setOnClickListener{
+            val mainBundle = Bundle()
+            mainBundle.putInt("loggedOut", 1)
             var goToMainActivity = Intent(this, MainActivity::class.java)
+            goToMainActivity.putExtras(mainBundle)
             startActivity(goToMainActivity)
         }
 

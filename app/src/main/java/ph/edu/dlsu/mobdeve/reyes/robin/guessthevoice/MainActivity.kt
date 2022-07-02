@@ -30,4 +30,11 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onBackPressed() {
+        if (intent.extras == null)
+            super.onBackPressed()
+        else
+            println("You must log in first")
+    }
 }
