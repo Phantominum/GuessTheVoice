@@ -55,9 +55,20 @@ class ViewQuizActivity : AppCompatActivity() {
 
 
         binding.buttonViewLeaderboards.setOnClickListener{
-            val goToLeaderboards = Intent(this, Leaderboards::class.java)
-            startActivity(goToLeaderboards)
+            lifecycleScope.launch(Dispatchers.IO){
+                 var leaderboardQuizID : String? = null
+                val goToLeaderboards = Intent(applicationContext, Leaderboards::class.java)
+                val quizJob = async { quizDAO.getQuizMetadataID(quiz_name,quiz_genre, quiz_created_at, quiz_creator) }
+                leaderboardQuizID = quizJob.await()
+                val bundle = Bundle()
+                bundle.putString("quizID", leaderboardQuizID)
+                bundle.putString("email", userEmail)
+                goToLeaderboards.putExtras(bundle)
+                startActivity(goToLeaderboards)
+            }
+
         }
+
 
         binding.buttonLikeQuiz.setOnClickListener{
             lifecycleScope.launch(Dispatchers.IO) {
@@ -108,6 +119,7 @@ class ViewQuizActivity : AppCompatActivity() {
 //            }
         }
     }
+
 
     private fun setQuizLikes(email : String) {
         lifecycleScope.launch(Dispatchers.IO) {

@@ -244,12 +244,15 @@ class TakeQuizActivity : AppCompatActivity() {
     }
     private suspend fun addToLeaderboard(points: Int, quizID: String,username: String){
 
-        var res = db.collection("Scores").whereEqualTo("username", email).get().await()
+        var res = db.collection("Scores").whereEqualTo("username", email).whereEqualTo("quizID", quizID).get().await()
         if(res.documents.size>0){
             db.collection("Scores").document(res.documents[0].id).update("points", points)
             val goToScorePageActivity = Intent(this, GameEndActivity::class.java)
             val bundle = Bundle()
             bundle.putInt("score", points)
+            bundle.putString("quizID", quizID)
+            bundle.putString("email",email)
+            println("DB: updated leaderboards!")
             goToScorePageActivity.putExtras(bundle)
             startActivity(goToScorePageActivity)
         }
@@ -259,6 +262,9 @@ class TakeQuizActivity : AppCompatActivity() {
                     val goToScorePageActivity = Intent(this, GameEndActivity::class.java)
                     val bundle = Bundle()
                     bundle.putInt("score", points)
+                    bundle.putString("quizID", quizID)
+                    bundle.putString("email", email)
+                    println("DB: added to leaderboards!")
                     goToScorePageActivity.putExtras(bundle)
                     startActivity(goToScorePageActivity)
                 }

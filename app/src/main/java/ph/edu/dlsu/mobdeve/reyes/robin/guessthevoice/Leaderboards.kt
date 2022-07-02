@@ -22,9 +22,11 @@ class Leaderboards : AppCompatActivity() {
     private var scoreArrayList= ArrayList<Score>()
     private lateinit var scoredao: ScoreDAO
     private lateinit var quizdao: QuizDAO
-    private lateinit var user : String
+    private lateinit var email : String
     private var curr_user = "tabbeee"
-    private var quizID = "voTDkBpCxCDgGitwt012"
+
+
+    private var quizID = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +34,19 @@ class Leaderboards : AppCompatActivity() {
         scoredao = ScoreDAO(applicationContext)
         quizdao = QuizDAO(applicationContext)
         setContentView(binding.root)
+
+        println("IN LEADERBOARDS ACTIVITY")
+        if (intent.extras != null){
+            val bundle = intent.extras
+            email = bundle!!.getString("email").toString()
+            quizID = bundle!!.getString("quizID").toString()
+            println("Received quiz ID: ${quizID}")
+        }
+
         populateScores()
 
 
-        val curr_user = "tabbeee"
+//        val curr_user = "tabbeee"
 
         binding.scoreList.layoutManager = LinearLayoutManager(applicationContext)
         scoreAdapter = ScoreAdapter(applicationContext, scoreArrayList, curr_user)

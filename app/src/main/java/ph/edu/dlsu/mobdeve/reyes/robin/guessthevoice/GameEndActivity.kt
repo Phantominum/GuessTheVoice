@@ -7,12 +7,20 @@ import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityGameEnd
 
 class GameEndActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGameEndBinding
+    private lateinit var email : String
+    private lateinit var quizID : String
+    private var points = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityGameEndBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         val bundle = intent.extras
+
+        email = bundle!!.getString("userEmail").toString()
+        quizID = bundle.getString("quizID").toString()
+        points = bundle.getInt("points")
+
         binding.textPoints.setText("${bundle!!.getInt("score").toString()} pts.")
 
         binding.buttonQuizEndBack.setOnClickListener{
@@ -22,6 +30,10 @@ class GameEndActivity : AppCompatActivity() {
 
         binding.buttonQuizEndViewLeaderboards.setOnClickListener{
             var gotoLeaderboards = Intent(this, Leaderboards::class.java)
+            bundle.putInt("score", points)
+            bundle.putString("quizID", quizID)
+            bundle.putString("email",email)
+            gotoLeaderboards.putExtras(bundle)
             startActivity(gotoLeaderboards)
         }
     }
