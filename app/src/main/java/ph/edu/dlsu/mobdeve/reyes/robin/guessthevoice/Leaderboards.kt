@@ -15,15 +15,16 @@ import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.ScoreDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.dao.UserDAO
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ActivityLeaderboardsBinding
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Score
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.ScoreView
 
 class Leaderboards : AppCompatActivity() {
     private lateinit var binding: ActivityLeaderboardsBinding
     private lateinit var scoreAdapter: ScoreAdapter
-    private var scoreArrayList= ArrayList<Score>()
+    private var scoreArrayList= ArrayList<ScoreView>()
+    private lateinit var userDao: UserDAO
     private lateinit var scoredao: ScoreDAO
     private lateinit var quizdao: QuizDAO
     private lateinit var email : String
-    private var curr_user = "tabbeee"
 
 
     private var quizID = ""
@@ -33,6 +34,7 @@ class Leaderboards : AppCompatActivity() {
         binding = ActivityLeaderboardsBinding.inflate(layoutInflater)
         scoredao = ScoreDAO(applicationContext)
         quizdao = QuizDAO(applicationContext)
+        userDao = UserDAO(applicationContext)
         setContentView(binding.root)
 
         println("IN LEADERBOARDS ACTIVITY")
@@ -40,30 +42,36 @@ class Leaderboards : AppCompatActivity() {
             val bundle = intent.extras
             email = bundle!!.getString("email").toString()
             quizID = bundle!!.getString("quizID").toString()
-            println("Received quiz ID: ${quizID}")
+            println("LOG: Received quiz ID: ${quizID}")
+            println("LOG: Received email ${email}")
         }
 
         populateScores()
 
-
-//        val curr_user = "tabbeee"
-
         binding.scoreList.layoutManager = LinearLayoutManager(applicationContext)
-        scoreAdapter = ScoreAdapter(applicationContext, scoreArrayList, curr_user)
+        scoreAdapter = ScoreAdapter(applicationContext, scoreArrayList, email)
         binding.scoreList.adapter = scoreAdapter
     }
 
    fun populateScores(){
        lifecycleScope.launch(Dispatchers.IO){
-           getQuizName()
-           val tempList = async{scoredao.getScores(quizID)}
-           println("LOG: TempList has size ${tempList.await()!!.size}")
-           if (tempList.await() != null) {
-               scoreArrayList = tempList.await()!!
+           val quiz_name = getQuizName()
+           val scoreJob = async{ scoredao.getScores(quizID) }
+           val scores = scoreJob.await()
+           println("LOG: TempList has size ${scoreJob.await()!!.size}")
+           if (scoreJob.await() != null) {
+               for (score in scores!!) {
+                   val userJob = async{ userDao.getAccount(score.username) }
+                   val user = userJob.await()
+                   val scoreView = ScoreView(score, user!!.username)
+                   scoreArrayList.add(scoreView)
+               }
+
                println(scoreArrayList.size)
                withContext(Dispatchers.Main){
+                   binding.textQuizName.text = quiz_name
                    binding.scoreList.layoutManager = LinearLayoutManager(applicationContext)
-                   scoreAdapter = ScoreAdapter(applicationContext, scoreArrayList, curr_user!!)
+                   scoreAdapter = ScoreAdapter(applicationContext, scoreArrayList, email!!)
                    binding.scoreList.adapter = scoreAdapter
                }
            }
@@ -74,9 +82,8 @@ class Leaderboards : AppCompatActivity() {
        }
    }
 
-    suspend fun getQuizName(){
+    suspend fun getQuizName(): String {
         var quiz = quizdao.getQuizById(quizID)
-        var name = quiz!!.quiz_name
-        binding.textQuizName.text = name
+        return quiz!!.quiz_name
     }
 }

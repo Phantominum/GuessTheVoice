@@ -7,24 +7,25 @@ import androidx.recyclerview.widget.RecyclerView
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.R
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.databinding.ScoreItemDesignBinding
 import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.Score
+import ph.edu.dlsu.mobdeve.reyes.robin.guessthevoice.model.ScoreView
 
 class ScoreAdapter(
     private var context:Context,
-    private var scoreArray: ArrayList<Score>,
-    private var curr_user:String
+    private var scoreArray: ArrayList<ScoreView>,
+    private var email:String
     ): RecyclerView.Adapter<ScoreAdapter.ScoreViewHolder>() {
 
     inner class ScoreViewHolder(private val itemBinding: ScoreItemDesignBinding)
         :RecyclerView.ViewHolder(itemBinding.root) {
-            fun bindScore(score:Score) {
-                if (score.username == curr_user) {
+            fun bindScore(scoreView:ScoreView) {
+                if (scoreView.score!!.username == email) {
                     itemBinding.rank.setTextColor(context.getResources().getColor(R.color.vibrant_pink))
                     itemBinding.username.setTextColor(context.getResources().getColor(R.color.vibrant_pink))
                     itemBinding.score.setTextColor(context.getResources().getColor(R.color.vibrant_pink))
                 }
-                itemBinding.rank.text = score.rank.toString()
-                itemBinding.username.text = score.username
-                itemBinding.score.text = score.points.toString() + " pts."
+                itemBinding.rank.text = scoreView.score!!.rank.toString()
+                itemBinding.username.text = scoreView.username
+                itemBinding.score.text = scoreView.score!!.points.toString() + " pts."
             }
         }
 

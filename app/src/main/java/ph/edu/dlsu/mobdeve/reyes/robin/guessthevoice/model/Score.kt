@@ -9,3 +9,11 @@ data class Score (
 ){
     constructor(): this(-1, "","", -1)
 }
+
+data class ScoreView (
+    var score : Score? = null,
+    var username: String = "",
+
+){
+    constructor(): this(null, "")
+}
