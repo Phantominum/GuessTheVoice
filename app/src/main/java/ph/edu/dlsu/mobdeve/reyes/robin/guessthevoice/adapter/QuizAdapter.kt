@@ -36,11 +36,6 @@ class QuizAdapter (
         this.likes = likes
     }
 
-    constructor(context: Context,  quizArray: ArrayList<Quiz>) : this() {
-        this.context = context
-        this.quizArray= quizArray
-    }
-
     inner class QuizViewHolder(private val itemBinding: QuizCardViewDesignBinding)
         :RecyclerView.ViewHolder(itemBinding.root), View.OnClickListener {
         var quiz = Quiz()
