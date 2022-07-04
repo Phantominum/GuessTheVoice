@@ -66,20 +66,7 @@
             android:textSize="45sp"
             app:layout_constraintTop_toBottomOf="@id/musicLogo" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/try_again"
-            android:paddingTop="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/green"
-            android:text="Try Again?"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:textAllCaps="false"
-            android:fontFamily="@font/inter_semibold"
-            style="?android:attr/borderlessButtonStyle"
 
-            />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/share_facebook"
@@ -87,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/facebooksharebutton"
-            android:text="Share to Facebook"
+            android:text="Share Score "
             android:fontFamily="@font/inter_semibold"
             android:textAllCaps="false"
             android:textColor="@color/black"
