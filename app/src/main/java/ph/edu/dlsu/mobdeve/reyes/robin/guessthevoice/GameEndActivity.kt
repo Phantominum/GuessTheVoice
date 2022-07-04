@@ -42,6 +42,7 @@ class GameEndActivity : AppCompatActivity() {
             bundle.putInt("score", points)
             bundle.putString("quizID", quizID)
             bundle.putString("email",email)
+            println("EMAIL $email")
             gotoLeaderboards.putExtras(bundle)
             startActivity(gotoLeaderboards)
         }

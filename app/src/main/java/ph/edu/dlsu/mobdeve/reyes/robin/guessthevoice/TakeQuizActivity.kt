@@ -4,12 +4,12 @@ import android.content.ContentValues
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.ktx.firestore
@@ -25,7 +25,7 @@ import java.io.IOException
 class TakeQuizActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTakeQuizBinding
     private lateinit var scoredao : ScoreDAO
-
+    var flag = 0
     val db = Firebase.firestore
     var listOfSongs = arrayOf<String>()
     var listOfAnswers = arrayOf<String>()
@@ -128,6 +128,7 @@ class TakeQuizActivity : AppCompatActivity() {
 
 
         binding.startButton.setOnClickListener{
+            flag =1
             startDelayTimer()
             binding.startButton.visibility = View.GONE
 
@@ -183,6 +184,7 @@ class TakeQuizActivity : AppCompatActivity() {
         }
         else{
             lifecycleScope.launch(Dispatchers.IO) {
+                flag =0
                 addToLeaderboard(points, quizID, email)
             }
         }
@@ -251,7 +253,7 @@ class TakeQuizActivity : AppCompatActivity() {
             val bundle = Bundle()
             bundle.putInt("score", points)
             bundle.putString("quizID", quizID)
-            bundle.putString("email",email)
+            bundle.putString("userEmail",email)
             println("DB: updated leaderboards!")
             goToScorePageActivity.putExtras(bundle)
             startActivity(goToScorePageActivity)
@@ -263,13 +265,21 @@ class TakeQuizActivity : AppCompatActivity() {
                     val bundle = Bundle()
                     bundle.putInt("score", points)
                     bundle.putString("quizID", quizID)
-                    bundle.putString("email", email)
+                    bundle.putString("userEmail", email)
                     println("DB: added to leaderboards!")
                     goToScorePageActivity.putExtras(bundle)
                     startActivity(goToScorePageActivity)
                 }
         }
     }
+
+    override fun onBackPressed() {
+        if (flag==1){
+            return
+        }
+        super.onBackPressed()
+    }
+
 
 
 }
