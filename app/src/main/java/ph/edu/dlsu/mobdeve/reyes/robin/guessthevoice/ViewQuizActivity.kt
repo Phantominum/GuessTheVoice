@@ -50,6 +50,7 @@ class ViewQuizActivity : AppCompatActivity() {
         binding.viewQuizImage.setImageResource(bundle.getInt("quiz_image"))
         // Set quiz likes
         if (userEmail != null) {
+            println("LOG: View quiz activity received ${userEmail}")
             lifecycleScope.launch(Dispatchers.IO) {
                 val userJob = async {userDAO.getAccount(userEmail!!)}
                 val username = userJob.await()!!.username
@@ -58,6 +59,8 @@ class ViewQuizActivity : AppCompatActivity() {
                 }
             }
             setQuizLikes(userEmail!!)
+        } else {
+            println("LOG: View quiz activity received NULL")
         }
 
 
@@ -135,7 +138,7 @@ class ViewQuizActivity : AppCompatActivity() {
             fullQuizData = quizDataJob.await()
             likes = fullQuizData!!.likes
             // Set a click listener only if quiz exists
-            if (quizID != null)
+            if (quizID != null && likedQuizzes != null)
             {
                 liked_state = true && likedQuizzes!!.any{ it == quizID }
                 println("LOG: Initial state is $liked_state")
