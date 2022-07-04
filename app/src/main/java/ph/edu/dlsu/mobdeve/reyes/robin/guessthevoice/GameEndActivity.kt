@@ -34,6 +34,9 @@ class GameEndActivity : AppCompatActivity() {
 
         binding.buttonQuizEndBack.setOnClickListener{
             var gotoDashboard = Intent(this, DashboardActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("email",email)
+            gotoDashboard.putExtras(bundle)
             startActivity(gotoDashboard)
         }
 

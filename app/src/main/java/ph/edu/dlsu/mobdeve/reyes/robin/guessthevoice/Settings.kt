@@ -73,6 +73,11 @@ class Settings : AppCompatActivity() {
 
         binding.buttonSettingsBack.setOnClickListener(){
             var goToDashboard = Intent(this, DashboardActivity::class.java)
+            val bundle = Bundle()
+            var dashboard_bundle = intent.extras
+            val email = dashboard_bundle!!.getString("email")
+            bundle.putString("email", email)
+            goToDashboard.putExtras(bundle)
             startActivity(goToDashboard)
         }
 

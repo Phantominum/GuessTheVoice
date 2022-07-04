@@ -80,6 +80,7 @@ class DashboardActivity : AppCompatActivity() {
 
         binding.buttonSettings.setOnClickListener{
             val settingsBundle = Bundle()
+            settingsBundle.putString("email", email)
             settingsBundle.putString("username", user.username)
             settingsBundle.putString("userID",userID)
             settingsBundle.putString("topGenre1", topGenres.get(0).genre_name)
