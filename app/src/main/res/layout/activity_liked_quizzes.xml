@@ -43,20 +43,8 @@
                 android:fontFamily="@font/inter_bold"
                 android:textColor="@color/white"
                 android:padding="18sp"
-                android:textSize="15sp"
+                android:textSize="23sp"
                 />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:fontFamily="@font/inter"
-                android:gravity="right"
-                android:padding="18dp"
-                android:text="Sort By: Recent"
-                android:textAlignment="gravity"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
 
 
 

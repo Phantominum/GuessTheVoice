@@ -47,11 +47,12 @@ class DashboardActivity : AppCompatActivity() {
             email = bundle.getString("email").toString()
             println("LOG: Dashboard bundle got $email")
             setUser(email)
-        } else {
-            // TODO: Remove this when done testing
-            email="gimmba@gim.com"
-            setUser("gimmba@gim.com")
         }
+//        else {
+//            // TODO: Remove this when done testing
+//            email="gimmba@gim.com"
+//            setUser("gimmba@gim.com")
+//        }
         // Populate genres
         populateGenres()
         // Top Genre 1
